@@ -1,4 +1,5 @@
 package com.main.butterflyfly;
+import static com.main.butterflyfly.Main.dosya;
 import java.awt.Button;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
 public class Kayit extends javax.swing.JFrame { 
     public Kayit() {
         initComponents();
@@ -113,8 +115,8 @@ public class Kayit extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Sifre, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addComponent(Sifre, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -210,30 +212,22 @@ public class Kayit extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
        String kullanici_adi = KullaniciAdi.getText();
        String sifre = Sifre.getText();
-       String query = "CREATE DATABASE IF NOT EXISTS BUTTERFLYFLY";
-       Statement SQL=null;
        Statement SQLD=null;
-       String yol="jdbc:mysql://localhost:3306/";
-       String yol2="jdbc:mysql://localhost:3306/butterflyfly";
         try {
-            Connection con= DriverManager.getConnection(yol, "root", "");
-            SQL = con.createStatement();
-            SQL.close();
-            con.close();
-            Connection cond=DriverManager.getConnection(yol2, "root", "");
-            Main m=new Main();
-            String x=m.oturum_kurulumu;
+            Main MainBaglantisi=new Main();
+            Connection cond=DriverManager.getConnection(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS);
             SQLD= cond.createStatement();
-            SQLD.executeUpdate(x);
-            PreparedStatement stmt = cond.prepareStatement("INSERT INTO Oturum (Kullanici_Adi, Sifre)\n" +
+            PreparedStatement stmt = cond.prepareStatement("INSERT INTO " +MainBaglantisi.TABLE_NAME+ "(Kullanici_Adi, Sifre)\n" +
 "VALUES (?, ?);");
             stmt.setString(1, kullanici_adi);
             stmt.setString(2, sifre);
             stmt.executeUpdate();
+            MainBaglantisi.dosyaOlustur(dosya);
         } catch (SQLException e) {
             System.out.println("Bir hata olustu");
             System.out.println(e.getMessage());
         }
+        
         dispose();
         SwingUtilities.invokeLater(new Runnable() {
             @Override

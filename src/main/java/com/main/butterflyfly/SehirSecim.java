@@ -4,6 +4,9 @@
  */
 package com.main.butterflyfly;
 
+import java.awt.Desktop;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -17,6 +20,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -47,14 +60,14 @@ public class SehirSecim extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
         jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        ButonDosyaSec = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        ButonYukle = new javax.swing.JButton();
+        ButonDevam = new javax.swing.JButton();
+        BolgeOnay = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(355, 237));
         setResizable(false);
 
         jPanel5.setBackground(new java.awt.Color(19, 85, 242));
@@ -90,10 +103,10 @@ public class SehirSecim extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(173, 245, 245));
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jButton1.setText("XLSX Dosyası Seçin");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        ButonDosyaSec.setText("XLSX Dosyası Seçin");
+        ButonDosyaSec.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                ButonDosyaSecActionPerformed(evt);
             }
         });
 
@@ -118,23 +131,31 @@ public class SehirSecim extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton2.setBackground(new java.awt.Color(51, 255, 153));
-        jButton2.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        jButton2.setText("Yükle");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        ButonYukle.setBackground(new java.awt.Color(51, 255, 153));
+        ButonYukle.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        ButonYukle.setText("Yükle");
+        ButonYukle.setEnabled(false);
+        ButonYukle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                ButonYukleActionPerformed(evt);
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(8, 222, 23));
-        jButton3.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
-        jButton3.setText("Devam");
-        jButton3.setEnabled(false);
-        jButton3.setPreferredSize(new java.awt.Dimension(75, 31));
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        ButonDevam.setBackground(new java.awt.Color(8, 222, 23));
+        ButonDevam.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        ButonDevam.setText("Devam");
+        ButonDevam.setEnabled(false);
+        ButonDevam.setPreferredSize(new java.awt.Dimension(75, 31));
+        ButonDevam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                ButonDevamActionPerformed(evt);
+            }
+        });
+
+        BolgeOnay.setText("Bölgeler Dahil");
+        BolgeOnay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BolgeOnayActionPerformed(evt);
             }
         });
 
@@ -148,27 +169,35 @@ public class SehirSecim extends javax.swing.JFrame {
                         .addGap(14, 14, 14)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(ButonDosyaSec, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 4, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(BolgeOnay)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(ButonYukle, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(ButonDevam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ButonDosyaSec, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(34, Short.MAX_VALUE))
+                    .addComponent(ButonYukle)
+                    .addComponent(ButonDevam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(BolgeOnay)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -191,11 +220,8 @@ public class SehirSecim extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,123 +233,205 @@ public class SehirSecim extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
-        List<String> Sehirler = new ArrayList<>();
-        Sehirler.clear();
-
-        try (FileInputStream fis = new FileInputStream(sehirler);
-            XSSFWorkbook workbook = new XSSFWorkbook(fis)) {
-
-            // İlk sayfayı al
-            XSSFSheet sheet = workbook.getSheetAt(0);
-
-            // Başlangıç satır ve sütunları
-            int baslangicSatir = 1; // Örnek olarak 2. satırdan başla
-            int baslangicSutun = 0; // 1. sütundan başla
-
-            // İlk yazdırılabilir sütunu belirle
-            int ilkYazdirilabilirSutun = 2; // Örnek olarak 3. sütun
-
-            for (int satirIndex = baslangicSatir; satirIndex <= sheet.getLastRowNum(); satirIndex++) {
-                Row row = sheet.getRow(satirIndex);
-
-                if (row != null) {
-                    // 1. sütunun 2. hücresini al
-                    Cell cell1 = row.getCell(baslangicSutun + 1);
-
-                    // Eğer 1. sütunun 2. hücresi sayı değilse, satırı işle
-                    if (cell1 != null && cell1.getCellType() != CellType.NUMERIC) {
-                        StringBuilder sehirlerSatiri = new StringBuilder();
-
-                        for (int sutunIndex = 0; sutunIndex < row.getLastCellNum(); sutunIndex++) {
-                            // İlk yazdırılabilir sütundan sonraki sütunları işleme
-                            if (sutunIndex >= ilkYazdirilabilirSutun && row.getCell(sutunIndex).getCellType() != CellType.NUMERIC) {
-                                break;
-                            }
-
-                            Cell currentCell = row.getCell(sutunIndex);
-                            if (currentCell != null && currentCell.getCellType() != CellType.NUMERIC) {
-                                // Listeye ekle
-                                sehirlerSatiri.append(currentCell.toString()).append("\t");
-                            }
-                        }
-
-                        // Listeye ekle
-                        Sehirler.add(sehirlerSatiri.toString());
-                    }
-                }
-            }
-        } catch (IOException e) {
+    private static void openWebPage(String url) {
+       try {
+            Desktop.getDesktop().browse(new URI(url));
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
-        int i=0;
-        for (String sehir : Sehirler) {
-            i+=1;
-            jTextArea2.append(i+" "+ sehir + "\n");
     }
+    
+    public class SehirlerLoader {
+
+        private List<List<String>> Sehirler;
+
+        public SehirlerLoader(String filePath) {
+            this.Sehirler = new ArrayList<>();
+            loadSehirler(filePath);
+        }
+
+        private void loadSehirler(String filePath) {
+            try (FileInputStream fis = new FileInputStream(filePath);
+                 XSSFWorkbook workbook = new XSSFWorkbook(fis)) {
+
+                // İlk sayfayı al
+                XSSFSheet sheet = workbook.getSheetAt(0);
+
+                // Başlangıç satır ve sütunları
+                int baslangicSatir = 1; // Örnek olarak 2. satırdan başla
+                int baslangicSutun = 0; // 1. sütundan başla
+
+                // İlk yazdırılabilir sütunu belirle
+                int ilkYazdirilabilirSutun = 2; // Örnek olarak 3. sütun
+
+                // Her bir sütun için yeni bir liste oluştur ve Sehirler listesine ekle
+                for (int sutunIndex = baslangicSutun; sutunIndex < sheet.getRow(baslangicSatir).getLastCellNum(); sutunIndex++) {
+                    Sehirler.add(new ArrayList<>());
+                }
+
+                for (int satirIndex = baslangicSatir; satirIndex <= sheet.getLastRowNum(); satirIndex++) {
+                    Row row = sheet.getRow(satirIndex);
+
+                    if (row != null) {
+                        // Eğer 1. sütunun 2. hücresi sayı değilse, satırı işle
+                        org.apache.poi.ss.usermodel.Cell cell1 = row.getCell(baslangicSutun + 1);
+                        if (cell1 != null && cell1.getCellType() != CellType.NUMERIC) {
+                            for (int sutunIndex = 0; sutunIndex < row.getLastCellNum(); sutunIndex++) {
+                                // İlk yazdırılabilir sütundan sonraki sütunları işleme
+                                if (BolgeOnay.isSelected()) {
+                                    // BolgeOnay seçiliyken özel durumlar için mantık ekleyin
+                                } else {
+                                    if (sutunIndex >= ilkYazdirilabilirSutun && row.getCell(sutunIndex).getCellType() != CellType.NUMERIC) {
+                                        break;
+                                    }
+                                }
+
+                                org.apache.poi.ss.usermodel.Cell currentCell = row.getCell(sutunIndex);
+                                if (currentCell != null && currentCell.getCellType() != CellType.NUMERIC) {
+                                    // Her bir hücreyi ilgili listeye ekle
+                                    Sehirler.get(sutunIndex).add(currentCell.toString());
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // Boş olan listeleri temizle
+            Sehirler.removeIf(List::isEmpty);
+        }
+
+        public List<List<String>> getSehirler() {
+            return Sehirler;
+        }
+}
+    
+    private void ButonYukleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButonYukleActionPerformed
+        jTextArea2.setText("");
+        
+        SehirlerLoader SehirListe = new SehirlerLoader(dosya.toString());
+        List<List<String>> Sehirler = SehirListe.getSehirler();
+       
+        // Verileri jTextArea2'ye alt alta ve yan yana ekleyin
+        for (int i = 0; i < Sehirler.get(0).size(); i++) {
+            StringBuilder rowData = new StringBuilder();
+
+            // Her bir sütunu işleme ve ID numarasını ekleyin
+            for (int j = 0; j < Sehirler.size(); j++) {
+                if (i < Sehirler.get(j).size()) {
+                    if (j == 0) {
+                        // İlk sütunsa ID numarasını ekle
+                        rowData.append((i + 1) + " ");
+                    }
+                    rowData.append(Sehirler.get(j).get(i)).append("\t");
+                }
+            }
+
+            jTextArea2.append(rowData.toString() + "\n");
+        }
 
         // Buton3'ü aktif hale getir
-        jButton3.setEnabled(true);
+        ButonDevam.setEnabled(true);
 
-        /* Şehirler ve Bölgeler
+    }//GEN-LAST:event_ButonYukleActionPerformed
 
-        try (FileInputStream fis = new FileInputStream(sehirler);
-            XSSFWorkbook workbook = new XSSFWorkbook(fis)) {
-
-            // İlk sayfayı al
-            XSSFSheet sheet = workbook.getSheetAt(0);
-
-            // Başlangıç satır ve sütunları
-            int baslangicSatir = 1; // Örnek olarak 2. satırdan başla
-            int baslangicSutun = 0; // 1. sütundan başla
-
-            for (int satirIndex = baslangicSatir; satirIndex <= sheet.getLastRowNum(); satirIndex++) {
-                Row row = sheet.getRow(satirIndex);
-
-                if (row != null) {
-                    // 1. sütunun 2. hücresini al
-                    Cell cell1 = row.getCell(baslangicSutun + 1);
-
-                    // Eğer 1. sütunun 2. hücresi sayı değilse, satırı yazdır
-                    if (cell1 != null && cell1.getCellType() != CellType.NUMERIC) {
-                        for (int sutunIndex = 0; sutunIndex < row.getLastCellNum(); sutunIndex++) {
-                            Cell currentCell = row.getCell(sutunIndex);
-                            if (currentCell != null && currentCell.getCellType() != CellType.NUMERIC) {
-                                System.out.print(currentCell.toString() + "\t");
-                            }
-                        }
-                        System.out.println(); // Satır değiştir
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
-
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(evt.getSource()==jButton1){
+    private void ButonDosyaSecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButonDosyaSecActionPerformed
+        // Dosya seçme butonu (ButonDosyaSec) olayı
+        if (evt.getSource() == ButonDosyaSec) {
+            // Dosya seçici penceresi oluştur
             JFileChooser fileChooser = new JFileChooser();
 
+            // Kullanıcının dosya seçme işlemini tamamlamasını bekleyin
             int response = fileChooser.showOpenDialog(null);
-            if(response == JFileChooser.APPROVE_OPTION){
-                jButton3.setEnabled(false);
-                // seçilen dosyayı sehirler'e ata
-                sehirler = new File(fileChooser.getSelectedFile().getAbsolutePath());
-                File sehirler_isim = new File(fileChooser.getSelectedFile().getName());
-                jLabel3.setText(sehirler_isim.toString());
+
+            // Kullanıcı dosya seçimini onayladıysa
+            if (response == JFileChooser.APPROVE_OPTION) {
+                // Diğer butonu devre dışı bırak
+                ButonDevam.setEnabled(false);
+
+                // Seçilen dosyayı 'sehirler' adlı File nesnesine ata
+                dosya = new File(fileChooser.getSelectedFile().getAbsolutePath());
+
+                // Seçilen dosyanın adını al ve jLabel3'e ayarla
+                File sehirlerIsim = new File(fileChooser.getSelectedFile().getName());
+                jLabel3.setText(sehirlerIsim.toString());
+
+                // Diğer butonu etkinleştir
+                ButonYukle.setEnabled(true);
             }
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_ButonDosyaSecActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-    private File sehirler;
+    
+    private void ButonDevamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButonDevamActionPerformed
+        
+        String yol2="jdbc:mysql://localhost:3306/butterflyfly";
+        try {
+            Statement SQLD=null;
+            Connection cond=DriverManager.getConnection(yol2, "root", "");
+            Main MainBaglantisi=new Main();
+            SQLD= cond.createStatement();
+            PreparedStatement stmt = cond.prepareStatement("INSERT INTO Oturum (Kullanici_Adi, Sifre)\n" + "VALUES (?, ?);");
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Bir hata olustu");
+            System.out.println(e.getMessage());
+        }
+
+        SehirlerLoader SehirListe = new SehirlerLoader(dosya.toString());
+        List<List<String>> Sehirler = SehirListe.getSehirler();
+        int ilkSutunIndex = 0;
+        int ikinciSutunIndex = 1;
+        int ilkSutunBoyutu = Sehirler.get(ilkSutunIndex).size();
+        int minBoyut = ilkSutunBoyutu;
+
+        for (int i = 0; i < minBoyut; i++) {
+            if (BolgeOnay.isSelected()) {
+                // BolgeOnay seçiliyken özel durumlar için mantık ekleyin
+                System.out.print(Sehirler.get(ilkSutunIndex).get(i) + "\t");
+                System.out.println(Sehirler.get(ikinciSutunIndex).get(i));
+            } else {
+                // BolgeOnay seçili değilse sadece ilk sütunu yazdır
+                System.out.print(Sehirler.get(ilkSutunIndex).get(i));
+
+                // Eğer sadece ilk sütunu yazdırıyorsanız, bir satır sonu ekleyin
+                System.out.println();
+            }
+        }
+        
+        
+        dispose();
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                AnaEkran ss=new AnaEkran();
+                ss.setVisible(true);
+                
+            }
+            
+        });
+    }//GEN-LAST:event_ButonDevamActionPerformed
+    
+    int x=0;
+    private void BolgeOnayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BolgeOnayActionPerformed
+        if(x==0){
+        String Link = "SehirlerBolgeler.xlsx";
+        String UyariYazisi="Bölge sistemini kurmak istiyorsanız excel belgenizin sütünlarını şu şekilde düzenleyin:\n1.Sütün: id veya boş\n2.Sütun: Şehir isimleri\nDiğer sütünlardan herhangi birine şehirlerin bulunduğu satıra göre bölgelerini yazınız. Örnek\n 1.sütun: 1 2 3 veya boş\n2.sütun: Adana Adıyaman Afyon Karahisar\n 3.sütun Akdeniz Güneydoğu Anadolu Ege\n Hazır Link:";
+        JLabel linkLabel = new JLabel("<html><u>" + Link + "</u></html>");
+        linkLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Bağlantıya tıklandığında yapılacak işlemleri burada tanımlayabilirsiniz
+                openWebPage("https://github.com/KaanAlper/ButterFlyFly/blob/main/SehirlerBolgeler.xlsx");
+            }
+        });
+        JOptionPane.showMessageDialog(null, new Object[]{UyariYazisi,linkLabel},"DIKKAT",JOptionPane.INFORMATION_MESSAGE);
+        x=1;
+        }
+    }//GEN-LAST:event_BolgeOnayActionPerformed
+    private File dosya;
     /**
      * @param args the command line arguments
      */
@@ -360,9 +468,10 @@ public class SehirSecim extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JCheckBox BolgeOnay;
+    private javax.swing.JButton ButonDevam;
+    private javax.swing.JButton ButonDosyaSec;
+    private javax.swing.JButton ButonYukle;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
