@@ -217,7 +217,7 @@ public class Kayit extends javax.swing.JFrame {
             Main MainBaglantisi=new Main();
             Connection cond=DriverManager.getConnection(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS);
             SQLD= cond.createStatement();
-            PreparedStatement stmt = cond.prepareStatement("INSERT INTO " +MainBaglantisi.TABLE_NAME+ "(Kullanici_Adi, Sifre)\n" +
+            PreparedStatement stmt = cond.prepareStatement("INSERT INTO " +MainBaglantisi.KAYIT_TABLE_NAME+ "(Kullanici_Adi, Sifre)\n" +
 "VALUES (?, ?);");
             stmt.setString(1, kullanici_adi);
             stmt.setString(2, sifre);

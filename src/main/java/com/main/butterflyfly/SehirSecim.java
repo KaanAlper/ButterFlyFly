@@ -4,6 +4,8 @@
  */
 package com.main.butterflyfly;
 
+import static com.main.butterflyfly.Main.PASS;
+import static com.main.butterflyfly.Main.USER;
 import java.awt.Desktop;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -366,48 +368,57 @@ public class SehirSecim extends javax.swing.JFrame {
 
     
     private void ButonDevamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButonDevamActionPerformed
-        
-        String yol2="jdbc:mysql://localhost:3306/butterflyfly";
-        try {
-            Statement SQLD=null;
-            Connection cond=DriverManager.getConnection(yol2, "root", "");
-            Main MainBaglantisi=new Main();
-            SQLD= cond.createStatement();
-            PreparedStatement stmt = cond.prepareStatement("INSERT INTO Oturum (Kullanici_Adi, Sifre)\n" + "VALUES (?, ?);");
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Bir hata olustu");
-            System.out.println(e.getMessage());
+        Main MainBaglantisi=new Main();
+        if (BolgeOnay.isSelected()) {
+            MainBaglantisi.createTable(MainBaglantisi.yol2, "CREATE TABLE IF NOT EXISTS "+ MainBaglantisi.SEHIRLER_TABLE_NAME+
+            "(Sehirler VARCHAR(255), " +
+            "Bolgeler VARCHAR(255))");
         }
-
-        SehirlerLoader SehirListe = new SehirlerLoader(dosya.toString());
-        List<List<String>> Sehirler = SehirListe.getSehirler();
-        int ilkSutunIndex = 0;
-        int ikinciSutunIndex = 1;
-        int ilkSutunBoyutu = Sehirler.get(ilkSutunIndex).size();
-        int minBoyut = ilkSutunBoyutu;
-
-        for (int i = 0; i < minBoyut; i++) {
-            if (BolgeOnay.isSelected()) {
-                // BolgeOnay seçiliyken özel durumlar için mantık ekleyin
-                System.out.print(Sehirler.get(ilkSutunIndex).get(i) + "\t");
-                System.out.println(Sehirler.get(ikinciSutunIndex).get(i));
-            } else {
-                // BolgeOnay seçili değilse sadece ilk sütunu yazdır
-                System.out.print(Sehirler.get(ilkSutunIndex).get(i));
-
-                // Eğer sadece ilk sütunu yazdırıyorsanız, bir satır sonu ekleyin
-                System.out.println();
+        else{
+            MainBaglantisi.createTable(MainBaglantisi.yol2, "CREATE TABLE IF NOT EXISTS " +MainBaglantisi.SEHIRLER_TABLE_NAME+
+            "(Sehirler VARCHAR(255))");
+        }
+        try (Connection connection = DriverManager.getConnection(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS)){
+            if (connection != null) {
+                SehirlerLoader SehirListe = new SehirlerLoader(dosya.toString());
+                List<List<String>> Sehirler = SehirListe.getSehirler();
+                int ilkSutunIndex = 0;
+                int ikinciSutunIndex = 1;
+                int ilkSutunBoyutu = Sehirler.get(ilkSutunIndex).size();
+                int minBoyut = ilkSutunBoyutu;
+                if (BolgeOnay.isSelected()) {
+                    String SehirTable = "INSERT INTO "+MainBaglantisi.SEHIRLER_TABLE_NAME+" (Sehirler, Bolgeler) VALUES (?, ?)";
+                    try (PreparedStatement preparedStatement = connection.prepareStatement(SehirTable)) {
+                        for (int i = 0; i < minBoyut; i++) {
+                            preparedStatement.setString(1, Sehirler.get(ilkSutunIndex).get(i));
+                            preparedStatement.setString(2, Sehirler.get(ikinciSutunIndex).get(i));
+                            preparedStatement.executeUpdate();                                                    
+                        }
+                    }    
+                }
+                else{
+                    String SehirTable = "INSERT INTO "+MainBaglantisi.SEHIRLER_TABLE_NAME+" (Sehirler) VALUES (?)";
+                    try (PreparedStatement preparedStatement = connection.prepareStatement(SehirTable)) {
+                        for (int i = 0; i < minBoyut; i++) {
+                            preparedStatement.setString(1, Sehirler.get(ilkSutunIndex).get(i));
+                            preparedStatement.executeUpdate();                            
+                        }
+                    }    
+                }
             }
+        }catch (SQLException e) {
+            e.printStackTrace();
         }
+        
+       
         
         
         dispose();
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                AnaEkran ss=new AnaEkran();
-                ss.setVisible(true);
+                AnaEkran ak=new AnaEkran();
+                ak.setVisible(true);
                 
             }
             
