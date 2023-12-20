@@ -4,8 +4,6 @@
  */
 package com.main.butterflyfly;
 
-import static com.main.butterflyfly.Main.PASS;
-import static com.main.butterflyfly.Main.USER;
 import java.awt.Desktop;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -13,15 +11,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import javax.swing.JFileChooser;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.util.ArrayList;
 import java.util.List;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.net.URI;
