@@ -224,20 +224,39 @@ public class Kayit extends javax.swing.JFrame {
             stmt.executeUpdate();
             MainBaglantisi.dosyaOlustur(dosya);
         } catch (SQLException e) {
-            System.out.println("Bir hata olustu");
-            System.out.println(e.getMessage());
+             JOptionPane.showMessageDialog(null,e.getMessage(),
+                                    "Really Nuggi", JOptionPane.WARNING_MESSAGE);
         }
         
         dispose();
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                SehirSecim ss=new SehirSecim();
-                ss.setVisible(true);
-                
+        Main MainBaglantisi=new Main();
+        try (Connection connection = DriverManager.getConnection(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS)) {
+            if((!MainBaglantisi.checkValueInDatabase(MainBaglantisi.blockK,"1", MainBaglantisi.BLOCK_TABLE_NAME))||!MainBaglantisi.tablodaVeriBulunuyorMu(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS, MainBaglantisi.SEHIRLER_TABLE_NAME,"Sehirler")){
+                String sql2 = "DROP TABLE IF EXISTS " + MainBaglantisi.SEHIRLER_TABLE_NAME;
+                Statement statement = connection.createStatement();
+                statement.executeUpdate(sql2);
+                dispose();
+                SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    SehirSecim ss=new SehirSecim();
+                    ss.setVisible(true);
+                }});
+        }
+            else{
+                dispose();
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        AnaEkran ak=new AnaEkran();
+                        ak.setVisible(true);
+
+                    }});
             }
-            
-        });
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         
     }//GEN-LAST:event_jButton1ActionPerformed
     
