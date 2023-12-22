@@ -6,7 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -23,6 +25,7 @@ public class Kurtarma extends javax.swing.JFrame {
      * Creates new form Kurtarma
      */
     public Kurtarma() {
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         initComponents();
     }
 
@@ -175,29 +178,41 @@ public class Kurtarma extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null,
                         "Program kapatılıcak, yeniden başlatılınca şifre yenileme ekranı açılacak",
                         "Really Nuggi", JOptionPane.WARNING_MESSAGE);
-                PreparedStatement stmt =con2.prepareStatement("INSERT INTO " +MainBaglantisi.BLOCK_TABLE_NAME+ "("+MainBaglantisi.blockK+") VALUES (?);");
-                PreparedStatement stmt2 =con2.prepareStatement("INSERT INTO " +MainBaglantisi.BLOCK_TABLE_NAME+ "(availability) VALUES (?);");
-                stmt.setString(1, "1");
-                stmt.executeUpdate();
-                stmt2.setString(1, "0");
-                stmt2.executeUpdate();
-                
+                if (MainBaglantisi.SifremiUnuttum==0){
+                    PreparedStatement stmt =con2.prepareStatement("INSERT INTO " +MainBaglantisi.BLOCK_TABLE_NAME+ "("+MainBaglantisi.blockK+") VALUES (?);");
+                    PreparedStatement stmt2 =con2.prepareStatement("INSERT INTO " +MainBaglantisi.BLOCK_TABLE_NAME+ "(availability) VALUES (?);");
+                    stmt.setString(1, "1");
+                    stmt.executeUpdate();
+                    stmt2.setString(1, "0");
+                    stmt2.executeUpdate();
+                }    
                 System.exit(0);
             } catch (SQLException ex) {
-                Logger.getLogger(AnaEkran.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(SifreEkran.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         else{
             Connection con2;
             try {
-                con2 = DriverManager.getConnection(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS);
-                MainBaglantisi.deleteAllRecordsFromTable(MainBaglantisi.yol2,MainBaglantisi.USER,MainBaglantisi.PASS,MainBaglantisi.BLOCK_TABLE_NAME);
-                PreparedStatement stmt =con2.prepareStatement("INSERT INTO " +MainBaglantisi.BLOCK_TABLE_NAME+ "(availability) VALUES (?);");
-                stmt.setString(1, "1");
-                stmt.executeUpdate();
+                if(MainBaglantisi.SifremiUnuttum==1){
+                    JOptionPane.showMessageDialog(null,
+                        "Kurtarma kodunu yanlış girdiniz. Daha sonra tekrar deneyiniz...",
+                        "Really Nuggi", JOptionPane.WARNING_MESSAGE);
+                }
+                else{
+                    con2 = DriverManager.getConnection(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS);
+                    MainBaglantisi.deleteAllRecordsFromTable(MainBaglantisi.yol2,MainBaglantisi.USER,MainBaglantisi.PASS,MainBaglantisi.BLOCK_TABLE_NAME);
+                    PreparedStatement stmt =con2.prepareStatement("INSERT INTO " +MainBaglantisi.BLOCK_TABLE_NAME+ "(availability) VALUES (?);");
+                    stmt.setString(1, "1");
+                    stmt.executeUpdate();
+                    JOptionPane.showMessageDialog(null,
+                    "Kurtarma Kodunu yanlış girdiniz. Sistem Bloklandı.",
+                    "Really Nuggi", JOptionPane.WARNING_MESSAGE);
+                    
+                }
                 System.exit(0);
             } catch (SQLException ex) {
-                Logger.getLogger(AnaEkran.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(SifreEkran.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         

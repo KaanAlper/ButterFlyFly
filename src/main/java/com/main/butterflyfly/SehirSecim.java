@@ -26,6 +26,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 
 /**
@@ -409,15 +411,24 @@ public class SehirSecim extends javax.swing.JFrame {
         
         
         dispose();
+        try (Connection connection = DriverManager.getConnection(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS)) {
+        MainBaglantisi.deleteAllRecordsFromTable(MainBaglantisi.yol2,MainBaglantisi.USER,MainBaglantisi.PASS,MainBaglantisi.KURULUM_TABLE_NAME);
+        PreparedStatement stmt = connection.prepareStatement("INSERT INTO " +MainBaglantisi.KURULUM_TABLE_NAME+ "(No) VALUES (?);");
+        stmt.setString(1, "1");
+        stmt.executeUpdate(); 
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                AnaEkran ak=new AnaEkran();
+                SifreEkran ak=new SifreEkran();
                 ak.setVisible(true);
                 
             }
             
         });
+        } catch (SQLException ex) {
+            Logger.getLogger(SehirSecim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_ButonDevamActionPerformed
     
     int x=0;

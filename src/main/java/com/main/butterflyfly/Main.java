@@ -22,14 +22,15 @@ import javax.swing.SwingUtilities;
 
 
 public class Main {
-    static int kurulum=1; /*buna göre şifre sor ve iste*/
     static String Oturum = "dosya.x";
     static File dosya = new File(Oturum);
     static int oturum=0;
+    static int SifremiUnuttum=0;
     static final String DATABASE_NAME = "butterflyfly";
     static final String KAYIT_TABLE_NAME = "oturum";
     static final String BLOCK_TABLE_NAME = "block";
     static final String SEHIRLER_TABLE_NAME = "SehirListesi";
+    static final String KURULUM_TABLE_NAME = "KurulumNo";
     static final String USER = "root";
     static final String PASS = "";
     static final String kayitKA = "Kullanici_Adi";
@@ -40,6 +41,8 @@ public class Main {
         kayitS+" VARCHAR(20))";
     static final String CREATE_TABLE_BLOCK = "CREATE TABLE IF NOT EXISTS " + BLOCK_TABLE_NAME +
         "(availability VARCHAR(255), "+ blockK +" VARCHAR(20))";
+    static final String CREATE_TABLE_KURULUM = "CREATE TABLE IF NOT EXISTS " + KURULUM_TABLE_NAME +
+    "(No VARCHAR(255))";
     static final String yol="jdbc:mysql://localhost:3306/";
     static final String yol2="jdbc:mysql://localhost:3306/butterflyfly";
 
@@ -185,7 +188,7 @@ public class Main {
         if(cevap==JOptionPane.YES_OPTION){
             dosyaOlustur(dosya);
             SwingUtilities.invokeLater(() -> {
-                AnaEkran ak = new AnaEkran();
+                SifreEkran ak = new SifreEkran();
                 ak.setVisible(true);
             });
         } else if(cevap==JOptionPane.NO_OPTION) {
@@ -245,6 +248,7 @@ public class Main {
         }
         Connection con = DriverManager.getConnection(yol, USER, PASS);
         SQL = con.createStatement();
+        
 
         boolean databaseExists = checkDatabaseExists(yol, DATABASE_NAME, USER, PASS);
         if (databaseExists) {           
@@ -259,11 +263,18 @@ public class Main {
             else{
                 Connection con2 = DriverManager.getConnection(yol2, USER, PASS);
                 createTable(yol + DATABASE_NAME, CREATE_TABLE_BLOCK);
-                if(!tablodaVeriBulunuyorMu(yol2, USER, PASS, BLOCK_TABLE_NAME,"availability")){
-                PreparedStatement stmt = con2.prepareStatement("INSERT INTO " +BLOCK_TABLE_NAME+ "(availability,"+blockK+") VALUES (?,?);");
-                stmt.setString(1, "0");
-                stmt.setString(2, "0");
-                stmt.executeUpdate();
+                createTable(yol + DATABASE_NAME, CREATE_TABLE_KURULUM);
+                if(tablodaVeriBulunuyorMu(yol2, USER, PASS, KURULUM_TABLE_NAME, "No")){
+                    deleteAllRecordsFromTable(yol2, USER, PASS, KURULUM_TABLE_NAME);
+                    PreparedStatement stmt = con2.prepareStatement("INSERT INTO " +KURULUM_TABLE_NAME+ "(No) VALUES (?);");
+                    stmt.setString(1, "1");
+                    stmt.executeUpdate();
+                }
+                if(!tablodaVeriBulunuyorMu(yol2, USER, PASS, BLOCK_TABLE_NAME,"availability")){                    
+                    PreparedStatement stmt = con2.prepareStatement("INSERT INTO " +BLOCK_TABLE_NAME+ "(availability,"+blockK+") VALUES (?,?);");
+                    stmt.setString(1, "0");
+                    stmt.setString(2, "0");
+                    stmt.executeUpdate();
                 }
                 boolean tableExists = checkTableExists(yol, DATABASE_NAME, KAYIT_TABLE_NAME, USER, PASS);
                 if (tableExists) {               
@@ -271,9 +282,13 @@ public class Main {
                         if (oturum == 1) {
                             boolean SehirTableExists = checkTableExists(yol, DATABASE_NAME, SEHIRLER_TABLE_NAME, USER, PASS);
                             if (SehirTableExists) {
-                                kurulum=0;
+                                deleteAllRecordsFromTable(yol2, USER, PASS, KURULUM_TABLE_NAME);
+                                PreparedStatement stmt = con2.prepareStatement("INSERT INTO " +KURULUM_TABLE_NAME+ "(No) VALUES (?);");
+                                stmt.setString(1, "0");
+                                stmt.executeUpdate();
+                                
                                 SwingUtilities.invokeLater(() -> {
-                                    AnaEkran ak = new AnaEkran();
+                                    SifreEkran ak = new SifreEkran();
                                     ak.setVisible(true);
                                 });
                             } else {
@@ -285,7 +300,7 @@ public class Main {
                         } else {
                             Object[] secenekler = {"Devam Et", "Sıfırla", "Iptal"};
                             int cevap = JOptionPane.showOptionDialog(null,
-                                    "Halihazırdı bir oturum var! \nDevam etmek ister misiniz yoksa sıfırlansın mı?",
+                                    "Halihazırda bir oturum var! \nDevam etmek ister misiniz yoksa sıfırlansın mı?",
                                     "DIKKAT", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
                                     null, secenekler, secenekler[0]);
                             if (cevap == JOptionPane.YES_OPTION) {
@@ -293,7 +308,7 @@ public class Main {
                                 if (SehirTableExists) {
                                     Object[] secenekler2 = {"Devam Et", "Sıfırla"};
                                     int cevap2 = JOptionPane.showOptionDialog(null,
-                                            "Halihazırdı bir sehir listesi bulunuyor! \nDevam etmek ister misiniz yoksa sıfırlansın mı?",
+                                            "Halihazırda bir sehir listesi bulunuyor! \nDevam etmek ister misiniz yoksa sıfırlansın mı?",
                                             "DIKKAT", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
                                             null, secenekler2, secenekler2[0]);
                                     if (cevap2 == JOptionPane.YES_OPTION) {
@@ -358,7 +373,7 @@ public class Main {
                                             e.printStackTrace();
         }
                                     } else {
-                                        String sql = "DROP TABLE " + SEHIRLER_TABLE_NAME;
+                                        String sql = "DROP TABLE IF EXISTS" + SEHIRLER_TABLE_NAME;
                                         try (Connection connection = DriverManager.getConnection(yol2, USER, PASS)) {
                                             try (Statement statement = connection.createStatement()) {
                                                 dosyaOlustur(dosya);
@@ -449,7 +464,29 @@ public class Main {
             
             
         } else {
+            Connection con2 = DriverManager.getConnection(yol2, USER, PASS);            
+            createTable(yol + DATABASE_NAME, CREATE_TABLE_KURULUM);
+            if(tablodaVeriBulunuyorMu(yol2, USER, PASS, KURULUM_TABLE_NAME, "No")){
+            deleteAllRecordsFromTable(yol2, USER, PASS, KURULUM_TABLE_NAME);
+            PreparedStatement stmt = con2.prepareStatement("INSERT INTO " +KURULUM_TABLE_NAME+ "(No) VALUES (?);");
+            stmt.setString(1, "1");
+            stmt.executeUpdate();
+                }
             createDatabase(yol, DATABASE_NAME);
+
+            createTable(yol + DATABASE_NAME, CREATE_TABLE_KURULUM);
+            createTable(yol + DATABASE_NAME, CREATE_TABLE_BLOCK);
+            if(!tablodaVeriBulunuyorMu(yol2, USER, PASS, BLOCK_TABLE_NAME,"availability")){                    
+                    PreparedStatement stmt = con2.prepareStatement("INSERT INTO " +BLOCK_TABLE_NAME+ "(availability,"+blockK+") VALUES (?,?);");
+                    stmt.setString(1, "0");
+                    stmt.setString(2, "0");
+                    stmt.executeUpdate();
+                }
+            if(!tablodaVeriBulunuyorMu(yol2, USER, PASS, KURULUM_TABLE_NAME, "No")){
+                PreparedStatement stmt = con2.prepareStatement("INSERT INTO " +KURULUM_TABLE_NAME+ "(No) VALUES (?);");
+                stmt.setString(1, "0");
+                stmt.executeUpdate();
+            }
             createTable(yol + DATABASE_NAME, CREATE_TABLE_KAYIT);
             SwingUtilities.invokeLater(() -> {
                 Kayit k = new Kayit();

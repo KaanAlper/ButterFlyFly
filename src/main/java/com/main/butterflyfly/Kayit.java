@@ -244,11 +244,15 @@ public class Kayit extends javax.swing.JFrame {
                 }});
         }
             else{
-                dispose();
+                dispose();              
+                MainBaglantisi.deleteAllRecordsFromTable(MainBaglantisi.yol2,MainBaglantisi.USER,MainBaglantisi.PASS,MainBaglantisi.KURULUM_TABLE_NAME);
+                PreparedStatement stmt = connection.prepareStatement("INSERT INTO " +MainBaglantisi.KURULUM_TABLE_NAME+ "(No) VALUES (?);");
+                stmt.setString(1, "1");
+                stmt.executeUpdate();                
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        AnaEkran ak=new AnaEkran();
+                        SifreEkran ak=new SifreEkran();
                         ak.setVisible(true);
 
                     }});
