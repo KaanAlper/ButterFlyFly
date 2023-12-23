@@ -31,6 +31,7 @@ public class Main {
     static final String BLOCK_TABLE_NAME = "block";
     static final String SEHIRLER_TABLE_NAME = "SehirListesi";
     static final String KURULUM_TABLE_NAME = "KurulumNo";
+    static final String BENIHATIRLA_TABLE_NAME = "BeniHatirla";
     static final String USER = "root";
     static final String PASS = "";
     static final String kayitKA = "Kullanici_Adi";
@@ -42,6 +43,8 @@ public class Main {
     static final String CREATE_TABLE_BLOCK = "CREATE TABLE IF NOT EXISTS " + BLOCK_TABLE_NAME +
         "(availability VARCHAR(255), "+ blockK +" VARCHAR(20))";
     static final String CREATE_TABLE_KURULUM = "CREATE TABLE IF NOT EXISTS " + KURULUM_TABLE_NAME +
+    "(No VARCHAR(255))";
+    static final String CREATE_TABLE_BENIHATIRLA = "CREATE TABLE IF NOT EXISTS " + BENIHATIRLA_TABLE_NAME +
     "(No VARCHAR(255))";
     static final String yol="jdbc:mysql://localhost:3306/";
     static final String yol2="jdbc:mysql://localhost:3306/butterflyfly";
@@ -187,10 +190,12 @@ public class Main {
                 JOptionPane.INFORMATION_MESSAGE, null, secenekler, secenekler[0]);
         if(cevap==JOptionPane.YES_OPTION){
             dosyaOlustur(dosya);
+            
             SwingUtilities.invokeLater(() -> {
                 SifreEkran ak = new SifreEkran();
                 ak.setVisible(true);
             });
+            
         } else if(cevap==JOptionPane.NO_OPTION) {
             try (Connection connection = DriverManager.getConnection(yol2, USER, PASS)) {
                 String sql2 = "DROP TABLE " + SEHIRLER_TABLE_NAME;
@@ -248,8 +253,11 @@ public class Main {
         }
         Connection con = DriverManager.getConnection(yol, USER, PASS);
         SQL = con.createStatement();
+        createTable(yol + DATABASE_NAME, CREATE_TABLE_BENIHATIRLA);
+        createTable(yol + DATABASE_NAME, CREATE_TABLE_BLOCK);
+        createTable(yol + DATABASE_NAME, CREATE_TABLE_KURULUM);
+        createTable(yol + DATABASE_NAME, CREATE_TABLE_KAYIT);
         
-
         boolean databaseExists = checkDatabaseExists(yol, DATABASE_NAME, USER, PASS);
         if (databaseExists) {           
             boolean blockExists = checkTableExists(yol, DATABASE_NAME, BLOCK_TABLE_NAME, USER, PASS);
@@ -259,11 +267,14 @@ public class Main {
                                         "There is nothing we can do  -Napolyon", JOptionPane.ERROR_MESSAGE);
                                 System.exit(0);
                 
-            }
+            }   
             else{
                 Connection con2 = DriverManager.getConnection(yol2, USER, PASS);
-                createTable(yol + DATABASE_NAME, CREATE_TABLE_BLOCK);
-                createTable(yol + DATABASE_NAME, CREATE_TABLE_KURULUM);
+                if(!tablodaVeriBulunuyorMu(yol2, USER, PASS, BENIHATIRLA_TABLE_NAME, "No")){
+                    PreparedStatement stmt2 = con2.prepareStatement("INSERT INTO " +BENIHATIRLA_TABLE_NAME+ "(No) VALUES (?);");
+                    stmt2.setString(1, "0");
+                    stmt2.executeUpdate();
+                }
                 if(tablodaVeriBulunuyorMu(yol2, USER, PASS, KURULUM_TABLE_NAME, "No")){
                     deleteAllRecordsFromTable(yol2, USER, PASS, KURULUM_TABLE_NAME);
                     PreparedStatement stmt = con2.prepareStatement("INSERT INTO " +KURULUM_TABLE_NAME+ "(No) VALUES (?);");
@@ -285,12 +296,12 @@ public class Main {
                                 deleteAllRecordsFromTable(yol2, USER, PASS, KURULUM_TABLE_NAME);
                                 PreparedStatement stmt = con2.prepareStatement("INSERT INTO " +KURULUM_TABLE_NAME+ "(No) VALUES (?);");
                                 stmt.setString(1, "0");
-                                stmt.executeUpdate();
-                                
+                                stmt.executeUpdate();   
                                 SwingUtilities.invokeLater(() -> {
                                     SifreEkran ak = new SifreEkran();
                                     ak.setVisible(true);
                                 });
+                                
                             } else {
                                 SwingUtilities.invokeLater(() -> {
                                     SehirSecim ss = new SehirSecim();
@@ -371,7 +382,7 @@ public class Main {
                                                 }}
                                         } catch (SQLException e) {
                                             e.printStackTrace();
-        }
+                                        }
                                     } else {
                                         String sql = "DROP TABLE IF EXISTS" + SEHIRLER_TABLE_NAME;
                                         try (Connection connection = DriverManager.getConnection(yol2, USER, PASS)) {
@@ -427,7 +438,7 @@ public class Main {
                        
                         try (Statement statement = connection.createStatement()) {
                             statement.executeUpdate(sql);
-                            createTable(yol + DATABASE_NAME, CREATE_TABLE_KAYIT);
+                            
                             SwingUtilities.invokeLater(() -> {
                                 Kayit k = new Kayit();
                                 k.setVisible(true);
@@ -464,18 +475,14 @@ public class Main {
             
             
         } else {
+            createDatabase(yol, DATABASE_NAME);
             Connection con2 = DriverManager.getConnection(yol2, USER, PASS);            
-            createTable(yol + DATABASE_NAME, CREATE_TABLE_KURULUM);
             if(tablodaVeriBulunuyorMu(yol2, USER, PASS, KURULUM_TABLE_NAME, "No")){
             deleteAllRecordsFromTable(yol2, USER, PASS, KURULUM_TABLE_NAME);
             PreparedStatement stmt = con2.prepareStatement("INSERT INTO " +KURULUM_TABLE_NAME+ "(No) VALUES (?);");
             stmt.setString(1, "1");
             stmt.executeUpdate();
                 }
-            createDatabase(yol, DATABASE_NAME);
-
-            createTable(yol + DATABASE_NAME, CREATE_TABLE_KURULUM);
-            createTable(yol + DATABASE_NAME, CREATE_TABLE_BLOCK);
             if(!tablodaVeriBulunuyorMu(yol2, USER, PASS, BLOCK_TABLE_NAME,"availability")){                    
                     PreparedStatement stmt = con2.prepareStatement("INSERT INTO " +BLOCK_TABLE_NAME+ "(availability,"+blockK+") VALUES (?,?);");
                     stmt.setString(1, "0");

@@ -1,27 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package com.main.butterflyfly;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import static java.lang.Thread.sleep;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 /**
@@ -34,8 +21,21 @@ public class SifreEkran extends javax.swing.JFrame {
      * Creates new form AnaEkran
      */
     public SifreEkran() {
+        Main MainBaglantisi=new Main();
+       
+       
 
-        initComponents();
+        if(MainBaglantisi.checkValueInDatabase("No", "1", MainBaglantisi.BENIHATIRLA_TABLE_NAME)){
+            SwingUtilities.invokeLater(() -> {
+                AnaEkran ak = new AnaEkran();
+                ak.setVisible(true);
+            });
+        }
+        else{
+       
+             initComponents();
+        }  
+        
     }
 
     /**
@@ -80,7 +80,6 @@ public class SifreEkran extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
-        jPanel1.setOpaque(true);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/morning__sayori__by_thinhjackson_dcqkbcd-pre.png"))); // NOI18N
         jLabel1.setLabelFor(jPanel2);
@@ -139,20 +138,18 @@ public class SifreEkran extends javax.swing.JFrame {
         jPanel3.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, -1, 80));
 
         jPanel4.setBackground(new java.awt.Color(0, 0, 0));
-        jPanel4.setOpaque(true);
 
         jPanel5.setBackground(new java.awt.Color(243, 166, 58));
-        jPanel5.setOpaque(true);
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jCheckBox1.setBackground(new java.awt.Color(255, 255, 255, 0));
+        jCheckBox1.setBackground(new java.awt.Color(243, 166, 58));
         jCheckBox1.setText("Beni Hatırla");
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox1ActionPerformed(evt);
             }
         });
-        jPanel5.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 240, -1, -1));
+        jPanel5.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 230, -1, -1));
 
         jButton2.setBackground(new java.awt.Color(243, 166, 58));
         jButton2.setFont(new java.awt.Font("sansserif", 3, 10)); // NOI18N
@@ -184,10 +181,7 @@ public class SifreEkran extends javax.swing.JFrame {
         jPanel5.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 230, 204, -1));
 
         jPanel6.setBackground(new java.awt.Color(0, 0, 0));
-        jPanel6.setOpaque(true);
         jPanel6.setPreferredSize(new java.awt.Dimension(0, 80));
-
-        jPanel7.setOpaque(true);
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/istockphoto-603164912-612x612 (1).jpg"))); // NOI18N
 
@@ -196,8 +190,8 @@ public class SifreEkran extends javax.swing.JFrame {
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 412, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -346,8 +340,8 @@ public class SifreEkran extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -399,6 +393,9 @@ public class SifreEkran extends javax.swing.JFrame {
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
 
+
+        
+        
             
     }//GEN-LAST:event_jCheckBox1ActionPerformed
     int hata=0;
@@ -447,10 +444,37 @@ public class SifreEkran extends javax.swing.JFrame {
         String sifre=jPasswordField1.getText();
         Main MainBaglantisi=new Main();
         if((MainBaglantisi.checkValueInDatabase(MainBaglantisi.kayitKA, kullanici_adi, MainBaglantisi.KAYIT_TABLE_NAME))&&(MainBaglantisi.checkValueInDatabase(MainBaglantisi.kayitS, sifre, MainBaglantisi.KAYIT_TABLE_NAME))){
-            if(jCheckBox1.isSelected()){
-                
-             
-            }            
+            Connection con2;
+            if(jCheckBox1.isSelected()) {
+                try {         
+                    if(MainBaglantisi.tablodaVeriBulunuyorMu(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS, MainBaglantisi.BENIHATIRLA_TABLE_NAME, "No")){
+                        MainBaglantisi.deleteAllRecordsFromTable(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS, MainBaglantisi.BENIHATIRLA_TABLE_NAME);
+                    }
+                    con2 = DriverManager.getConnection(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS);
+                    PreparedStatement stmt = con2.prepareStatement("INSERT INTO " +MainBaglantisi.BENIHATIRLA_TABLE_NAME+ "(No) VALUES (?);");
+                    stmt.setString(1, "1");
+                    stmt.executeUpdate();
+                } catch (SQLException ex) {
+                    Logger.getLogger(SifreEkran.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            else{
+                try {
+                    if(MainBaglantisi.tablodaVeriBulunuyorMu(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS, MainBaglantisi.BENIHATIRLA_TABLE_NAME, "No")){
+                        MainBaglantisi.deleteAllRecordsFromTable(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS, MainBaglantisi.BENIHATIRLA_TABLE_NAME);
+                    }
+                    con2 = DriverManager.getConnection(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS);
+                    PreparedStatement stmt = con2.prepareStatement("INSERT INTO " +MainBaglantisi.BENIHATIRLA_TABLE_NAME+ "(No) VALUES (?);");
+                    stmt.setString(1, "0");
+                    stmt.executeUpdate();
+                } catch (SQLException ex) {
+                    Logger.getLogger(SifreEkran.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            SwingUtilities.invokeLater(() -> {
+                AnaEkran ak = new AnaEkran();
+            ak.setVisible(true);
+            });
         }
         else if(sifre.equals(EasterPass)){
             jLabel8.setText("<html>İyi deneme ama ne yazık ki"
@@ -510,9 +534,7 @@ public class SifreEkran extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        
-        Main MainBaglantisi=new Main();
+    public static void main(String args[]) throws SQLException {      
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new SifreEkran().setVisible(true);
