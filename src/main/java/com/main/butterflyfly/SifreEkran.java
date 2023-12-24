@@ -472,6 +472,7 @@ public class SifreEkran extends javax.swing.JFrame {
                             null, secenekler, secenekler[0]);
                     if(cevap==JOptionPane.NO_OPTION){
                         this.setEnabled(false);
+                        MainBaglantisi.SifremiUnuttum=0;
                         SwingUtilities.invokeLater(() -> {
                         Kurtarma ku = new Kurtarma(this, rootPaneCheckingEnabled);
                         ku.setVisible(true);

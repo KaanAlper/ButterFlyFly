@@ -174,12 +174,9 @@ public class Kurtarma extends javax.swing.JDialog {
                 MainBaglantisi.deleteAllRecordsFromTable(MainBaglantisi.yol2,MainBaglantisi.USER,MainBaglantisi.PASS,MainBaglantisi.KAYIT_TABLE_NAME);
                 MainBaglantisi.deleteAllRecordsFromTable(MainBaglantisi.yol2,MainBaglantisi.USER,MainBaglantisi.PASS,MainBaglantisi.BLOCK_TABLE_NAME);              
                 if (MainBaglantisi.SifremiUnuttum==0){
-                    PreparedStatement stmt =con2.prepareStatement("INSERT INTO " +MainBaglantisi.BLOCK_TABLE_NAME+ "("+MainBaglantisi.blockK+") VALUES (?);");
-                    PreparedStatement stmt2 =con2.prepareStatement("INSERT INTO " +MainBaglantisi.BLOCK_TABLE_NAME+ "(availability) VALUES (?);");
-                    stmt.setString(1, "1");
+                    PreparedStatement stmt =con2.prepareStatement("INSERT INTO " +MainBaglantisi.BLOCK_TABLE_NAME+ "(availability) VALUES (?);");     
+                    stmt.setString(1, "0");
                     stmt.executeUpdate();
-                    stmt2.setString(1, "0");
-                    stmt2.executeUpdate();
                     JOptionPane.showMessageDialog(null,
                     "Program kapatılıcak, yeniden başlatılınca şifre yenileme ekranı açılacak",
                     "Really Nuggi", JOptionPane.WARNING_MESSAGE);
@@ -205,6 +202,7 @@ public class Kurtarma extends javax.swing.JDialog {
                 else{
                     con2 = DriverManager.getConnection(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS);
                     MainBaglantisi.deleteAllRecordsFromTable(MainBaglantisi.yol2,MainBaglantisi.USER,MainBaglantisi.PASS,MainBaglantisi.BLOCK_TABLE_NAME);
+                    MainBaglantisi.deleteAllRecordsFromTable(MainBaglantisi.yol2,MainBaglantisi.USER,MainBaglantisi.PASS,MainBaglantisi.KAYIT_TABLE_NAME);
                     PreparedStatement stmt =con2.prepareStatement("INSERT INTO " +MainBaglantisi.BLOCK_TABLE_NAME+ "(availability) VALUES (?);");
                     stmt.setString(1, "1");
                     stmt.executeUpdate();
@@ -221,41 +219,8 @@ public class Kurtarma extends javax.swing.JDialog {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Kurtarma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Kurtarma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Kurtarma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Kurtarma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the dialog */
+    public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 Kurtarma dialog = new Kurtarma(new javax.swing.JFrame(), true);
