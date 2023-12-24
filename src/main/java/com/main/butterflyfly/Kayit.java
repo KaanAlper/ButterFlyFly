@@ -14,6 +14,7 @@ public class Kayit extends javax.swing.JFrame {
         initComponents();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -195,7 +196,7 @@ public class Kayit extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void SifreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SifreActionPerformed
-        // TODO add your handling code here:
+    
     }//GEN-LAST:event_SifreActionPerformed
 
     private void KullaniciAdiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KullaniciAdiActionPerformed
@@ -210,15 +211,13 @@ public class Kayit extends javax.swing.JFrame {
             Main MainBaglantisi=new Main();
             Connection cond=DriverManager.getConnection(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS);
             SQLD= cond.createStatement();
-            PreparedStatement stmt = cond.prepareStatement("INSERT INTO " +MainBaglantisi.KAYIT_TABLE_NAME+ "(Kullanici_Adi, Sifre)\n" +
-"VALUES (?, ?);");
+            PreparedStatement stmt = cond.prepareStatement("INSERT INTO " +MainBaglantisi.KAYIT_TABLE_NAME+ "(Kullanici_Adi, Sifre) VALUES (?, ?);");
             stmt.setString(1, kullanici_adi);
             stmt.setString(2, sifre);
             stmt.executeUpdate();
             MainBaglantisi.dosyaOlustur(dosya);
         } catch (SQLException e) {
-             JOptionPane.showMessageDialog(null,e.getMessage(),
-                                    "Really Nuggi", JOptionPane.WARNING_MESSAGE);
+             JOptionPane.showMessageDialog(null,e.getMessage(), "Really Nuggi", JOptionPane.WARNING_MESSAGE);
         }
         
         dispose();
@@ -247,23 +246,13 @@ public class Kayit extends javax.swing.JFrame {
                     public void run() {
                         SifreEkran ak=new SifreEkran();
                         ak.setVisible(true);
-
                     }});
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        
     }//GEN-LAST:event_jButton1ActionPerformed
-    
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(() -> {
-            new Kayit().setVisible(true);
-            
-        });
-        
-    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField KullaniciAdi;
@@ -278,4 +267,5 @@ public class Kayit extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     // End of variables declaration//GEN-END:variables
+
 }
