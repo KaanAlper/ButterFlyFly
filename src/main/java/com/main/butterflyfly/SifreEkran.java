@@ -16,15 +16,16 @@ import javax.swing.SwingUtilities;
 public class SifreEkran extends javax.swing.JFrame {
     public SifreEkran() {
         Main MainBaglantisi=new Main();
-        if(MainBaglantisi.checkValueInDatabase("No", "1", MainBaglantisi.BENIHATIRLA_TABLE_NAME)){
+        if(MainBaglantisi.checkValueInDatabase("No", "1", MainBaglantisi.BENIHATIRLA_TABLE_NAME) || MainBaglantisi.checkValueInDatabase("No", "1", MainBaglantisi.KURULUM_TABLE_NAME)){
             SwingUtilities.invokeLater(() -> {
+                dispose();
                 AnaEkran ak = new AnaEkran();
                 ak.setVisible(true);
             });
         }
-        else if(MainBaglantisi.checkValueInDatabase("No", "0", MainBaglantisi.BENIHATIRLA_TABLE_NAME)){
-             initComponents();
-        }         
+        else {
+            initComponents();  
+        }
     }
 
     @SuppressWarnings("unchecked")             
@@ -448,9 +449,10 @@ public class SifreEkran extends javax.swing.JFrame {
                     Logger.getLogger(SifreEkran.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            dispose();
             SwingUtilities.invokeLater(() -> {
                 AnaEkran ak = new AnaEkran();
-            ak.setVisible(true);
+                ak.setVisible(true);
             });
         }
         else if(sifre.equals(EasterPass)){

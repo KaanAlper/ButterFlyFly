@@ -361,8 +361,8 @@ public class SehirSecim extends javax.swing.JFrame {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    SifreEkran ak=new SifreEkran();
-                    ak.setVisible(true);               
+                    SifreEkran se=new SifreEkran();
+                    se.setVisible(true);               
                 }          
             });
         } catch (SQLException ex) {
