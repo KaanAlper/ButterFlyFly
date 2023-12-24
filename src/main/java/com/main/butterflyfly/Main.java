@@ -234,7 +234,8 @@ public class Main {
         SQL = con.createStatement();
         
         boolean databaseExists = checkDatabaseExists(yol, DATABASE_NAME, USER, PASS);
-        if (databaseExists) { 
+        if (databaseExists) {
+            System.out.println("com.main.butterflyfly.Main.main()");
             createTable(yol + DATABASE_NAME, CREATE_TABLE_BENIHATIRLA);
             createTable(yol + DATABASE_NAME, CREATE_TABLE_BLOCK);
             createTable(yol + DATABASE_NAME, CREATE_TABLE_KURULUM);
@@ -406,7 +407,7 @@ public class Main {
                         try (Connection connection = DriverManager.getConnection(yol2, USER, PASS)) {
                             String sql = "DROP TABLE IF EXISTS " + KAYIT_TABLE_NAME;
                             try (Statement statement = connection.createStatement()) {
-                                statement.executeUpdate(sql);
+
                                 SwingUtilities.invokeLater(() -> {
                                     Kayit k = new Kayit();
                                     k.setVisible(true);

@@ -473,7 +473,7 @@ public class SifreEkran extends javax.swing.JFrame {
                     if(cevap==JOptionPane.NO_OPTION){
                         this.setEnabled(false);
                         SwingUtilities.invokeLater(() -> {
-                        Kurtarma ku = new Kurtarma();
+                        Kurtarma ku = new Kurtarma(this, rootPaneCheckingEnabled);
                         ku.setVisible(true);
                         });
                     }
@@ -499,7 +499,7 @@ public class SifreEkran extends javax.swing.JFrame {
         Main MainBaglantisi=new Main();
         MainBaglantisi.SifremiUnuttum=1;
         SwingUtilities.invokeLater(() -> {
-        Kurtarma ku = new Kurtarma();
+        Kurtarma ku = new Kurtarma(this, rootPaneCheckingEnabled);
         ku.setVisible(true);
         });              
     }//GEN-LAST:event_jButton2ActionPerformed
