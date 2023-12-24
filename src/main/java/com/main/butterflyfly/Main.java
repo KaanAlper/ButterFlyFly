@@ -395,7 +395,7 @@ public class Main {
                                         statement.executeUpdate(sql2);
                                         createTable(yol + DATABASE_NAME, CREATE_TABLE_KAYIT);
                                         SwingUtilities.invokeLater(() -> {
-                                            Kayit k = new Kayit();
+                                            Oturum k = new Oturum();
                                             k.setVisible(true);
                                         });
                                     }
@@ -418,7 +418,7 @@ public class Main {
                         JOptionPane.showMessageDialog(null, "Kullanici ve Sifre Degerleri Yazilmamış\n"
                         + "Sistem Sifirlanacak", "DIKKAT", JOptionPane.WARNING_MESSAGE);
                         SwingUtilities.invokeLater(() -> {
-                            Kayit k = new Kayit();
+                            Oturum k = new Oturum();
                             k.setVisible(true);
                         });
                     }       
@@ -433,7 +433,7 @@ public class Main {
                             statement.executeUpdate(sql2);
                             createTable(yol + DATABASE_NAME, CREATE_TABLE_KAYIT);
                             SwingUtilities.invokeLater(() -> {
-                                Kayit k = new Kayit();
+                                Oturum k = new Oturum();
                                 k.setVisible(true);
                             });
                         }
@@ -456,7 +456,7 @@ public class Main {
                 stmt.executeUpdate();
             }
             SwingUtilities.invokeLater(() -> {
-                Kayit k = new Kayit();
+                Oturum k = new Oturum();
                 k.setVisible(true);
             });
         }

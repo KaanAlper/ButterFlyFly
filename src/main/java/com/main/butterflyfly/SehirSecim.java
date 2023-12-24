@@ -53,7 +53,6 @@ public class SehirSecim extends javax.swing.JFrame {
         BolgeOnay = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setAlwaysOnTop(true);
         setResizable(false);
 
         jPanel5.setBackground(new java.awt.Color(19, 85, 242));

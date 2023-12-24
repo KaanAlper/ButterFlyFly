@@ -64,7 +64,7 @@ public class SifreEkran extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/morning__sayori__by_thinhjackson_dcqkbcd-pre.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/PassSystemSayori.png"))); // NOI18N
         jLabel1.setLabelFor(jPanel2);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -166,7 +166,7 @@ public class SifreEkran extends javax.swing.JFrame {
         jPanel6.setBackground(new java.awt.Color(0, 0, 0));
         jPanel6.setPreferredSize(new java.awt.Dimension(0, 80));
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/istockphoto-603164912-612x612 (1).jpg"))); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/PassSystemRoad.jpg"))); // NOI18N
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -251,7 +251,7 @@ public class SifreEkran extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(8, 50, 7, 17);
         jPanel10.add(jTextField1, gridBagConstraints);
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/1121885-200.png"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/PassSystemUserIcon.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -268,7 +268,7 @@ public class SifreEkran extends javax.swing.JFrame {
         jPanel12.setPreferredSize(new java.awt.Dimension(270, 41));
         jPanel12.setLayout(new java.awt.GridBagLayout());
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/3099886.png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/PassSystemLockIcon.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -336,7 +336,7 @@ public class SifreEkran extends javax.swing.JFrame {
 
         jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 430, 290));
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/y.jpg"))); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/PassSystemBackGround.jpg"))); // NOI18N
         jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 460, 490));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

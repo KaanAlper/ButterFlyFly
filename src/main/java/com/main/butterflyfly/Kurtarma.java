@@ -183,7 +183,7 @@ public class Kurtarma extends javax.swing.JDialog {
                     System.exit(0);
                 }
                 else if(MainBaglantisi.SifremiUnuttum==1){
-                    Kayit k=new Kayit();
+                    Oturum k=new Oturum();
                     k.setVisible(true);
                     dispose();
                 }

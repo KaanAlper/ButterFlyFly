@@ -19,8 +19,8 @@ import javax.swing.SwingUtilities;
  *
  * @author Kaan Alper
  */
-public class Kayit extends javax.swing.JFrame {
-    public Kayit() {
+public class Oturum extends javax.swing.JFrame {
+    public Oturum() {
         initComponents();
     }
 
