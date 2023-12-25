@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package com.main.butterflyfly;
 
 import java.awt.event.ActionEvent;
@@ -20,7 +16,7 @@ import javax.swing.DefaultListModel;
 
 /**
  *
- * @author halis
+ * @author Kaan Alper
  */
 
 public class KayitOlustur extends javax.swing.JDialog {
@@ -38,8 +34,7 @@ public class KayitOlustur extends javax.swing.JDialog {
         sehirListModel = new DefaultListModel<>();
         bolgeComboBoxModel2 = new DefaultComboBoxModel<>();
         sehirListModel2 = new DefaultListModel<>();
-        initComponents();
-        
+        initComponents();       
         jComboBox1.setModel(bolgeComboBoxModel);
         jList2.setModel(sehirListModel);
         jComboBox2.setModel(bolgeComboBoxModel2);
@@ -71,7 +66,7 @@ public class KayitOlustur extends javax.swing.JDialog {
                     int index = jList2.getSelectedIndex();
                     if (index != -1) {
                         secilenSehir = sehirListModel.getElementAt(index);
-                        System.out.println("Seçilen Şehir: " + secilenSehir);
+                        jLabel2.setText(secilenSehir);
                     }
                 }
             }
@@ -83,20 +78,17 @@ public class KayitOlustur extends javax.swing.JDialog {
                     int index = jList3.getSelectedIndex();
                     if (index != -1) {
                         secilenSehir2 = sehirListModel2.getElementAt(index);
-                        System.out.println("Seçilen Şehir: " + secilenSehir2);
+                        jLabel3.setText(secilenSehir2);
                     }
                 }
             }
-        });
-        
-    
+        });   
     }
     
 private void populateBolgelerComboBox() {
-        bolgeComboBoxModel.removeAllElements(); // Temizleme işlemi
+        bolgeComboBoxModel.removeAllElements();
         Main MainBaglantisi =new Main();
         try (Connection connection = DriverManager.getConnection(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS)) {
-            // Check if 'Bolgeler' column exists
             boolean bolgelerVarMi = checkIfColumnExists(connection, "sehirlistesi", "Bolgeler");
 
             if (bolgelerVarMi) {
@@ -108,10 +100,7 @@ private void populateBolgelerComboBox() {
                     }
                 }
             } else {
-                // 'Bolgeler' column does not exist, add a default item to the ComboBox
                 bolgeComboBoxModel.addElement("Şehirler");
-
-                // Fetch all 'Sehirler' and add them to the list directly
                 String sql = "SELECT DISTINCT Sehirler FROM sehirlistesi";
                 try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
                         ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -125,10 +114,9 @@ private void populateBolgelerComboBox() {
         }
     }
 private void populateBolgelerComboBox2() {
-        bolgeComboBoxModel2.removeAllElements(); // Temizleme işlemi
+        bolgeComboBoxModel2.removeAllElements();
         Main MainBaglantisi =new Main();
         try (Connection connection = DriverManager.getConnection(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS)) {
-            // Check if 'Bolgeler' column exists
             boolean bolgelerVarMi = checkIfColumnExists(connection, "sehirlistesi", "Bolgeler");
 
             if (bolgelerVarMi) {
@@ -140,10 +128,7 @@ private void populateBolgelerComboBox2() {
                     }
                 }
             } else {
-                // 'Bolgeler' column does not exist, add a default item to the ComboBox
                 bolgeComboBoxModel2.addElement("Şehirler");
-
-                // Fetch all 'Sehirler' and add them to the list directly
                 String sql = "SELECT DISTINCT Sehirler FROM sehirlistesi";
                 try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
                         ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -159,19 +144,15 @@ private void populateBolgelerComboBox2() {
 
     
 private void updateSehirList(String selectedBolge) {
-    sehirListModel.clear(); // Temizleme işlemi
+    sehirListModel.clear();
     Main MainBaglantisi = new Main();
     try (Connection connection = DriverManager.getConnection(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS)) {
-
-        // Check if 'Bolgeler' column exists
         boolean bolgelerVarMi = checkIfColumnExists(connection, "sehirlistesi", "Bolgeler");
 
         String sql;
         if (bolgelerVarMi) {
-            // 'Bolgeler' sütunu mevcut ise, sadece seçilen bölgeye ait şehirleri getir
             sql = "SELECT Sehirler FROM sehirlistesi WHERE Bolgeler = ?";
         } else {
-            // 'Bolgeler' sütunu yoksa, tüm şehirleri getirme
             sql = "SELECT Sehirler FROM sehirlistesi";
         }
 
@@ -185,10 +166,8 @@ private void updateSehirList(String selectedBolge) {
                     sehirListModel.addElement(resultSet.getString("Sehirler"));
                 }
             }
-
-            // Listeyi belirli bir boyutta sabit tutma
-            jList2.setFixedCellWidth(150); // Örnek olarak genişliği 150 piksel
-            jList2.setFixedCellHeight(20); // Örnek olarak yüksekliği 20 piksel
+            jList2.setFixedCellWidth(150); 
+            jList2.setFixedCellHeight(20); 
         }
     } catch (SQLException e) {
         e.printStackTrace();
@@ -196,13 +175,10 @@ private void updateSehirList(String selectedBolge) {
 }
 
 private void updateSehirList2(String selectedBolge) {
-    sehirListModel2.clear(); // Temizleme işlemi
+    sehirListModel2.clear();
     Main MainBaglantisi = new Main();
     try (Connection connection = DriverManager.getConnection(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS)) {
-
-        // Check if 'Bolgeler' column exists
         boolean bolgelerVarMi = checkIfColumnExists(connection, "sehirlistesi", "Bolgeler");
-
         String sql;
         if (bolgelerVarMi) {
             // 'Bolgeler' sütunu mevcut ise, sadece seçilen bölgeye ait şehirleri getir
@@ -211,7 +187,6 @@ private void updateSehirList2(String selectedBolge) {
             // 'Bolgeler' sütunu yoksa, tüm şehirleri getirme
             sql = "SELECT Sehirler FROM sehirlistesi";
         }
-
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             if (bolgelerVarMi && !selectedBolge.equals("Şehirler")) {
                 preparedStatement.setString(1, selectedBolge);
@@ -222,10 +197,8 @@ private void updateSehirList2(String selectedBolge) {
                     sehirListModel2.addElement(resultSet.getString("Sehirler"));
                 }
             }
-
-            // Listeyi belirli bir boyutta sabit tutma
-            jList3.setFixedCellWidth(150); // Örnek olarak genişliği 150 piksel
-            jList3.setFixedCellHeight(20); // Örnek olarak yüksekliği 20 piksel
+            jList3.setFixedCellWidth(150);
+            jList3.setFixedCellHeight(20);
         }
     } catch (SQLException e) {
         e.printStackTrace();
@@ -248,15 +221,25 @@ private void updateSehirList2(String selectedBolge) {
         jScrollPane2 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList<>();
         jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jComboBox2 = new javax.swing.JComboBox<>();
         jScrollPane3 = new javax.swing.JScrollPane();
         jList3 = new javax.swing.JList<>();
+        jPanel8 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 102));
+
+        jPanel3.setMaximumSize(new java.awt.Dimension(198, 202));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Şehirler" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -290,16 +273,30 @@ private void updateSehirList2(String selectedBolge) {
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
+        jPanel2.setBackground(new java.awt.Color(7, 11, 21));
+
+        jLabel1.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Yeni Uçuş Rezervasyonu Oluştur");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(66, 66, 66)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 58, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel4.setMaximumSize(new java.awt.Dimension(198, 202));
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Şehirler" }));
         jComboBox2.addActionListener(new java.awt.event.ActionListener() {
@@ -333,15 +330,94 @@ private void updateSehirList2(String selectedBolge) {
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
+        jPanel8.setBackground(new java.awt.Color(0, 0, 0));
+
+        jPanel6.setBackground(new java.awt.Color(94, 109, 138));
+
+        jPanel7.setBackground(new java.awt.Color(0, 0, 0));
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Cross.png"))); // NOI18N
+        jButton2.setPreferredSize(new java.awt.Dimension(32, 32));
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Check.png"))); // NOI18N
+        jButton1.setPreferredSize(new java.awt.Dimension(32, 32));
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLabel2.setText("jLabel2");
+
+        jLabel3.setText("jLabel3");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 176, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGap(83, 83, 83)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 425, Short.MAX_VALUE)
+            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -350,25 +426,27 @@ private void updateSehirList2(String selectedBolge) {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(34, 34, 34)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(23, Short.MAX_VALUE)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -393,9 +471,6 @@ private void updateSehirList2(String selectedBolge) {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -412,8 +487,13 @@ private void updateSehirList2(String selectedBolge) {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JList<String> jList2;
     private javax.swing.JList<String> jList3;
     private javax.swing.JPanel jPanel1;
@@ -421,6 +501,9 @@ private void updateSehirList2(String selectedBolge) {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     // End of variables declaration//GEN-END:variables
