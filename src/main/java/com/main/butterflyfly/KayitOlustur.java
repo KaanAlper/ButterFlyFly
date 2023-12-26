@@ -44,7 +44,9 @@ public class KayitOlustur extends javax.swing.JDialog {
         BitisBolgeModel = new DefaultComboBoxModel<>();
         sehirListModel2 = new DefaultListModel<>();
         initComponents();       
-        BaslangıcBolgeBox.setModel(BaslangicBolgeModel);
+        OnaylaButon.setEnabled(False);
+        IptalButon.setEnanled(False);
+ BaslangıcBolgeBox.setModel(BaslangicBolgeModel);
         BaslangicSehirList.setModel(sehirListModel);
         BitisBolgeBox.setModel(BitisBolgeModel);
         BitisSehirList.setModel(sehirListModel2);
@@ -76,6 +78,10 @@ public class KayitOlustur extends javax.swing.JDialog {
                     if (index != -1) {
                         secilenSehir = sehirListModel.getElementAt(index);
                         BaslangicSehir.setText(secilenSehir+" 'dan");
+if(secilenSehir2!=null && Zaman!=null){
+OnaylaButon.setEnabled(True);
+IptalButon.setEnabled(True);
+}
                     }
                 }
             }
@@ -88,6 +94,10 @@ public class KayitOlustur extends javax.swing.JDialog {
                     if (index != -1) {
                         secilenSehir2 = sehirListModel2.getElementAt(index);
                         BitisSehir.setText(secilenSehir2+" 'a");
+if(secilenSehir!=null && Zaman!=null){
+OnaylaButon.setEnabled(True);
+IptalButon.setEnabled(True);
+}
                     }
                 }
             }
@@ -144,6 +154,10 @@ public class KayitOlustur extends javax.swing.JDialog {
 
                 String formattedDateTime = selectedDay +" / "+ selectedMonth+ "  Saat: " + selectedHour + ":" + selectedMinute;
                 Zaman.setText(formattedDateTime);
+if(secilenSehir!=null && secilenSehir2!=null){
+OnaylaButon.setEnabled(True);
+IptalButon.setEnabled(True);
+}
             }
         });
 
