@@ -82,6 +82,11 @@ public class AnaEkran extends javax.swing.JFrame {
         jButton8.setForeground(new java.awt.Color(255, 255, 255));
         jButton8.setText("Kayıt Düzenleme ve Iptal Islemleri");
         jButton8.setPreferredSize(new java.awt.Dimension(73, 28));
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -247,6 +252,11 @@ public class AnaEkran extends javax.swing.JFrame {
         KayitOlustur dialog= new KayitOlustur(this, rootPaneCheckingEnabled);
         dialog.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        KayitDuzenle dialog= new KayitDuzenle(this, rootPaneCheckingEnabled);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

@@ -61,7 +61,7 @@ public class KayitOlustur extends javax.swing.JDialog {
         panel.setLayout(new GridLayout(5, 2));
 
         // Ay
-        String[] monthNames = {"Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağuston", "Eylül", "Ekim", "Kasım", "Aralık"};
+        String[] monthNames = {"Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"};
         JComboBox<String> monthComboBox = new JComboBox<>(monthNames);
         JLabel AyLabel=new JLabel("    Ay:");
         AyLabel.setForeground(new java.awt.Color(255,255,255));
