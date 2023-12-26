@@ -36,6 +36,7 @@ public class Main {
     static final String KURULUM_TABLE_NAME = "KurulumNo";
     static final String BENIHATIRLA_TABLE_NAME = "BeniHatirla";
     static final String WINDOWSTHEME_TABLE_NAME = "WindowsTheme";
+    static final String REZERVASYON_TABLE_NAME= "Rezervasyonlar";
     static final String USER = "root";
     static final String PASS = "";
     static final String kayitKA = "Kullanici_Adi";
@@ -45,6 +46,7 @@ public class Main {
     static final String CREATE_TABLE_KURULUM = "CREATE TABLE IF NOT EXISTS " + KURULUM_TABLE_NAME + "(No VARCHAR(255))";
     static final String CREATE_TABLE_BENIHATIRLA = "CREATE TABLE IF NOT EXISTS " + BENIHATIRLA_TABLE_NAME + "(No VARCHAR(255))";
     static final String CREATE_TABLE_WINDOWSTHEME = "CREATE TABLE IF NOT EXISTS " + WINDOWSTHEME_TABLE_NAME + "(No VARCHAR(255))";
+    static final String CREATE_TABLE_REZERVASYON = "CREATE TABLE IF NOT EXISTS " + REZERVASYON_TABLE_NAME + "(ID int NOT NULL AUTO_INCREMENT, BaslangicSehir varchar(255) NOT NULL, BitisSehir varchar(255) NOT NULL, Zaman varchar(255) NOT NULL, PRIMARY KEY (ID))";
     static final String yol="jdbc:mysql://localhost:3306/";
     static final String yol2="jdbc:mysql://localhost:3306/butterflyfly";
 
