@@ -573,7 +573,7 @@ OnaylaButon.setEnabled(False);
 IptalButon.setEnanled(False);
 }
 
-BitisBolgeBoxActionPerformed(java.awt.event.ActionEvent evt) {
+private void BitisBolgeBoxActionPerformed(java.awt.event.ActionEvent evt) {
 
 }
 
