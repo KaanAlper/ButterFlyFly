@@ -551,9 +551,22 @@ private void updateSehirList2(String selectedBolge) {
         // TODO add your handling code here:
     }//GEN-LAST:event_BaslangıcBolgeBoxActionPerformed
 
-    private void BitisBolgeBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BitisBolgeBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BitisBolgeBoxActionPerformed
+    private void OnaylaButonActionPerformed(java.awt.event.ActionEvent evt) {
+    Main MainBaglantisi = new Main();
+    try (Connection connection = DriverManager.getConnection(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS)) {
+
+MainBaglantisi.createTable(MainBaglantisi.yol2, "createTableQuery #eklenecek");
+ PreparedStatement stmt=connection.prepareStatement("INSERT INTO "+MainBaglantisi.REZERVASYON_TABLE_NAME+ "(BaslangicSehir, BitisSehir, Zaman) VALUES (?,?,?);");
+stmt.setString(1,secilenSehir);
+stmt.setString(2,secilenSehir2);
+STMT.setString(3,Zaman);
+}
+
+    }
+
+    BitisBolgeBoxActionPerformed(java.awt.event.ActionEvent evt) {
+
+}
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
