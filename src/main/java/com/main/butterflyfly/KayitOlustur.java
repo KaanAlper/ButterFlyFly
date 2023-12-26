@@ -556,15 +556,24 @@ private void updateSehirList2(String selectedBolge) {
     try (Connection connection = DriverManager.getConnection(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS)) {
 
 MainBaglantisi.createTable(MainBaglantisi.yol2, "createTableQuery #eklenecek");
- PreparedStatement stmt=connection.prepareStatement("INSERT INTO "+MainBaglantisi.REZERVASYON_TABLE_NAME+ "(BaslangicSehir, BitisSehir, Zaman) VALUES (?,?,?);");
+PreparedStatement stmt=connection.prepareStatement("INSERT INTO "+MainBaglantisi.REZERVASYON_TABLE_NAME+ "(BaslangicSehir, BitisSehir, Zaman) VALUES (?,?,?);");
 stmt.setString(1,secilenSehir);
 stmt.setString(2,secilenSehir2);
-STMT.setString(3,Zaman);
+stmt.setString(3,Zaman);
 }
+JOptionPane.showMessageDialog(null, "Kayıt başarı ile oluşturuldu.", "Rezervasyon", JOptionPane.WARNING_MESSAGE);
 
     }
 
-    BitisBolgeBoxActionPerformed(java.awt.event.ActionEvent evt) {
+private void IptalButonActionPerformed(java.awt.event.ActionEvent evt) { 
+BitisSehir.setText(" ");
+BaslangicSehir.setText(" ");
+Zaman.setText(" ");
+OnaylaButon.setEnabled(False);
+IptalButon.setEnanled(False);
+}
+
+BitisBolgeBoxActionPerformed(java.awt.event.ActionEvent evt) {
 
 }
 
