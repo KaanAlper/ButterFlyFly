@@ -48,12 +48,74 @@ public class KayitOlustur extends javax.swing.JDialog {
         BitisBolgeModel = new DefaultComboBoxModel<>();
         sehirListModel2 = new DefaultListModel<>();
         initComponents();       
+<<<<<<< HEAD
+=======
+        OnaylaButon.setEnabled(False);
+        IptalButon.setEnanled(False);
+ BaslangıcBolgeBox.setModel(BaslangicBolgeModel);
+        BaslangicSehirList.setModel(sehirListModel);
+        BitisBolgeBox.setModel(BitisBolgeModel);
+        BitisSehirList.setModel(sehirListModel2);
+>>>>>>> 4095a090f96b683abf51fc128d5db0a3259feac4
         populateBolgelerComboBox();
         populateBolgelerComboBox2();       
         String selectedBolge = (String) BaslangıcBolgeBox.getSelectedItem();
         String selectedBolge2 = (String) BitisBolgeBox.getSelectedItem();
         updateSehirList(selectedBolge);
         updateSehirList2(selectedBolge2);
+<<<<<<< HEAD
+=======
+        BaslangıcBolgeBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedBolge = (String) BaslangıcBolgeBox.getSelectedItem();
+                updateSehirList(selectedBolge);
+            }
+        });
+        BitisBolgeBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedBolge2 = (String) BitisBolgeBox.getSelectedItem();
+                updateSehirList2(selectedBolge2);
+            }
+        });
+       BaslangicSehirList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 1) {
+                    int index = BaslangicSehirList.getSelectedIndex();
+                    if (index != -1) {
+                        secilenSehir = sehirListModel.getElementAt(index);
+                        BaslangicSehir.setText(secilenSehir+" 'dan");
+if(secilenSehir2!=null && Zaman!=null){
+OnaylaButon.setEnabled(True);
+IptalButon.setEnabled(True);
+}
+                    }
+                }
+            }
+        });
+        BitisSehirList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 1) {
+                    int index = BitisSehirList.getSelectedIndex();
+                    if (index != -1) {
+                        secilenSehir2 = sehirListModel2.getElementAt(index);
+                        BitisSehir.setText(secilenSehir2+" 'a");
+if(secilenSehir!=null && Zaman!=null){
+OnaylaButon.setEnabled(True);
+IptalButon.setEnabled(True);
+}
+                    }
+                }
+            }
+        });
+        jPanel5.add(createDateTimePickerPanel());
+        System.out.println("Panel components count: " + jPanel5.getComponentCount());
+
+
+>>>>>>> 4095a090f96b683abf51fc128d5db0a3259feac4
     }
     
     public JPanel createDateTimePickerPanel() {
@@ -119,10 +181,17 @@ public class KayitOlustur extends javax.swing.JDialog {
                 String selectedMinute = (String) minuteComboBox.getSelectedItem();
                 formattedDateTime = selectedDay +" / "+ selectedMonth+ "  Saat: " + selectedHour + ":" + selectedMinute;
                 Zaman.setText(formattedDateTime);
+<<<<<<< HEAD
                 if(secilenSehir!=null && secilenSehir2!=null){
                     OnaylaButon.setEnabled(true);
                     IptalButon.setEnabled(true);
                 }
+=======
+if(secilenSehir!=null && secilenSehir2!=null){
+OnaylaButon.setEnabled(True);
+IptalButon.setEnabled(True);
+}
+>>>>>>> 4095a090f96b683abf51fc128d5db0a3259feac4
             }
         });
         panel.add(new JLabel());
@@ -628,9 +697,31 @@ public class KayitOlustur extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_BaslangıcBolgeBoxActionPerformed
 
-    private void BitisBolgeBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BitisBolgeBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BitisBolgeBoxActionPerformed
+    private void OnaylaButonActionPerformed(java.awt.event.ActionEvent evt) {
+    Main MainBaglantisi = new Main();
+    try (Connection connection = DriverManager.getConnection(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS)) {
+
+MainBaglantisi.createTable(MainBaglantisi.yol2, "createTableQuery #eklenecek");
+PreparedStatement stmt=connection.prepareStatement("INSERT INTO "+MainBaglantisi.REZERVASYON_TABLE_NAME+ "(BaslangicSehir, BitisSehir, Zaman) VALUES (?,?,?);");
+stmt.setString(1,secilenSehir);
+stmt.setString(2,secilenSehir2);
+stmt.setString(3,Zaman);
+}
+JOptionPane.showMessageDialog(null, "Kayıt başarı ile oluşturuldu.", "Rezervasyon", JOptionPane.WARNING_MESSAGE);
+
+    }
+
+private void IptalButonActionPerformed(java.awt.event.ActionEvent evt) { 
+BitisSehir.setText(" ");
+BaslangicSehir.setText(" ");
+Zaman.setText(" ");
+OnaylaButon.setEnabled(False);
+IptalButon.setEnanled(False);
+}
+
+private void BitisBolgeBoxActionPerformed(java.awt.event.ActionEvent evt) {
+
+}
 
     private void OnaylaButonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OnaylaButonActionPerformed
         Main MainBaglantisi = new Main();
