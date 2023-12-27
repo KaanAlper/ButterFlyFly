@@ -48,7 +48,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="370" y="340" width="410" height="270"/>
+              <AbsoluteConstraints x="370" y="320" width="410" height="230"/>
             </Constraint>
           </Constraints>
 
@@ -81,7 +81,7 @@
               </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="0" gridY="0" gridWidth="1" gridHeight="1" fill="2" ipadX="290" ipadY="24" insetsTop="4" insetsLeft="7" insetsBottom="3" insetsRight="7" anchor="10" weightX="0.2" weightY="0.2"/>
+                  <GridBagConstraints gridX="0" gridY="0" gridWidth="1" gridHeight="1" fill="2" ipadX="290" ipadY="24" insetsTop="3" insetsLeft="9" insetsBottom="0" insetsRight="9" anchor="10" weightX="0.2" weightY="0.5"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -106,7 +106,7 @@
               </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="0" gridY="1" gridWidth="1" gridHeight="1" fill="2" ipadX="290" ipadY="7" insetsTop="0" insetsLeft="9" insetsBottom="2" insetsRight="6" anchor="10" weightX="0.2" weightY="0.0"/>
+                  <GridBagConstraints gridX="0" gridY="1" gridWidth="1" gridHeight="1" fill="2" ipadX="290" ipadY="24" insetsTop="4" insetsLeft="9" insetsBottom="3" insetsRight="6" anchor="10" weightX="0.2" weightY="0.2"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -128,7 +128,7 @@
               </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="0" gridY="3" gridWidth="1" gridHeight="1" fill="2" ipadX="290" ipadY="5" insetsTop="0" insetsLeft="10" insetsBottom="4" insetsRight="6" anchor="10" weightX="0.0" weightY="0.0"/>
+                  <GridBagConstraints gridX="0" gridY="2" gridWidth="1" gridHeight="1" fill="2" ipadX="290" ipadY="5" insetsTop="2" insetsLeft="10" insetsBottom="3" insetsRight="6" anchor="10" weightX="0.0" weightY="0.2"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -150,26 +150,7 @@
               </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="0" gridY="4" gridWidth="1" gridHeight="1" fill="2" ipadX="284" ipadY="6" insetsTop="0" insetsLeft="11" insetsBottom="3" insetsRight="5" anchor="10" weightX="0.2" weightY="0.0"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton11">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="6a" green="5b" red="23" type="rgb"/>
-                </Property>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dubai" size="18" style="1"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Kay&#x131;t G&#xf6;r&#xfc;nt&#xfc;leme"/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="0" gridY="2" gridWidth="1" gridHeight="1" fill="2" ipadX="290" ipadY="7" insetsTop="2" insetsLeft="9" insetsBottom="4" insetsRight="6" anchor="10" weightX="0.2" weightY="0.0"/>
+                  <GridBagConstraints gridX="0" gridY="3" gridWidth="1" gridHeight="1" fill="2" ipadX="284" ipadY="6" insetsTop="3" insetsLeft="11" insetsBottom="7" insetsRight="5" anchor="10" weightX="0.2" weightY="0.2"/>
                 </Constraint>
               </Constraints>
             </Component>

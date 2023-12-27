@@ -217,17 +217,28 @@ public class Oturum extends javax.swing.JFrame {
             Main MainBaglantisi=new Main();
             Connection cond=DriverManager.getConnection(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS);
             SQLD= cond.createStatement();
-            PreparedStatement stmt = cond.prepareStatement("INSERT INTO " +MainBaglantisi.KAYIT_TABLE_NAME+ "(Kullanici_Adi, Sifre) VALUES (?, ?);");
-            stmt.setString(1, kullanici_adi);
-            stmt.setString(2, sifre);
-            stmt.executeUpdate();
+            if(!MainBaglantisi.tablodaVeriBulunuyorMu(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS, MainBaglantisi.KAYIT_TABLE_NAME, "Kullanici_Adi")){
+                PreparedStatement stmt = cond.prepareStatement("INSERT INTO " +MainBaglantisi.KAYIT_TABLE_NAME+ "(Kullanici_Adi, Sifre) VALUES (?, ?);");
+                stmt.setString(1, kullanici_adi);
+                stmt.setString(2, sifre);
+                stmt.executeUpdate();
+            }
+            else{
+                MainBaglantisi.deleteAllRecordsFromTable(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS, MainBaglantisi.SEHIRLER_TABLE_NAME);
+                PreparedStatement stmt = cond.prepareStatement("INSERT INTO " +MainBaglantisi.KAYIT_TABLE_NAME+ "(Kullanici_Adi, Sifre) VALUES (?, ?);");
+                stmt.setString(1, kullanici_adi);
+                stmt.setString(2, sifre);
+                stmt.executeUpdate();
+            }
             MainBaglantisi.dosyaOlustur(dosya);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null,e.getMessage(), "Really Nuggi", JOptionPane.WARNING_MESSAGE);
         }
-
-        dispose();
         Main MainBaglantisi=new Main();
+        if(MainBaglantisi.AyarDeğisimi==1){
+            System.exit(0);
+        }
+        dispose();
         if(!(MainBaglantisi.SifremiUnuttum==1)){
             try (Connection connection = DriverManager.getConnection(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS)) {
                 if(!MainBaglantisi.checkTableExists(MainBaglantisi.yol, MainBaglantisi.DATABASE_NAME, MainBaglantisi.SEHIRLER_TABLE_NAME, MainBaglantisi.USER, MainBaglantisi.PASS)|| !MainBaglantisi.tablodaVeriBulunuyorMu(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS, MainBaglantisi.SEHIRLER_TABLE_NAME, "Sehirler")){
@@ -242,17 +253,19 @@ public class Oturum extends javax.swing.JFrame {
                     MainBaglantisi.deleteAllRecordsFromTable(MainBaglantisi.yol2,MainBaglantisi.USER,MainBaglantisi.PASS,MainBaglantisi.KURULUM_TABLE_NAME);
                     PreparedStatement stmt = connection.prepareStatement("INSERT INTO " +MainBaglantisi.KURULUM_TABLE_NAME+ "(No) VALUES (?);");
                     stmt.setString(1, "1");
-                    stmt.executeUpdate();
+                    stmt.executeUpdate(); 
                     SwingUtilities.invokeLater(new Runnable() {
                         @Override
                         public void run() {
                             SifreEkran se=new SifreEkran();
-                            se.setVisible(true);
-                        }});
-                    }
-                } catch (SQLException e) {
+                            se.setVisible(true);               
+                        }          
+                    });
+
+                 }
+                }catch (SQLException e) {
                     e.printStackTrace();
-                }
+                } 
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

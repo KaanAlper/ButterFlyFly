@@ -29,6 +29,7 @@ public class Main {
     static File dosya = new File(Oturum);
     static int oturum=0;
     static int SifremiUnuttum=0;
+    static int AyarDeğisimi = 0;
     static final String DATABASE_NAME = "butterflyfly";
     static final String KAYIT_TABLE_NAME = "oturum";
     static final String BLOCK_TABLE_NAME = "block";
@@ -292,7 +293,7 @@ public class Main {
                                 deleteAllRecordsFromTable(yol2, USER, PASS, KURULUM_TABLE_NAME);
                                 PreparedStatement stmt = con2.prepareStatement("INSERT INTO " +KURULUM_TABLE_NAME+ "(No) VALUES (?);");
                                 stmt.setString(1, "0");
-                                stmt.executeUpdate();   
+                                stmt.executeUpdate();                              
                                 SwingUtilities.invokeLater(() -> {
                                     SifreEkran se = new SifreEkran();
                                     se.setVisible(true);

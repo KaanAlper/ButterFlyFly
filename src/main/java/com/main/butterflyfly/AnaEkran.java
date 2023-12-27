@@ -37,7 +37,6 @@ public class AnaEkran extends javax.swing.JFrame {
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
@@ -73,8 +72,8 @@ public class AnaEkran extends javax.swing.JFrame {
         gridBagConstraints.ipadx = 290;
         gridBagConstraints.ipady = 24;
         gridBagConstraints.weightx = 0.2;
-        gridBagConstraints.weighty = 0.2;
-        gridBagConstraints.insets = new java.awt.Insets(4, 7, 3, 7);
+        gridBagConstraints.weighty = 0.5;
+        gridBagConstraints.insets = new java.awt.Insets(3, 9, 0, 9);
         jPanel6.add(jButton2, gridBagConstraints);
 
         jButton8.setBackground(new java.awt.Color(35, 91, 106));
@@ -92,9 +91,10 @@ public class AnaEkran extends javax.swing.JFrame {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 290;
-        gridBagConstraints.ipady = 7;
+        gridBagConstraints.ipady = 24;
         gridBagConstraints.weightx = 0.2;
-        gridBagConstraints.insets = new java.awt.Insets(0, 9, 2, 6);
+        gridBagConstraints.weighty = 0.2;
+        gridBagConstraints.insets = new java.awt.Insets(4, 9, 3, 6);
         jPanel6.add(jButton8, gridBagConstraints);
 
         jButton9.setBackground(new java.awt.Color(35, 91, 106));
@@ -108,11 +108,12 @@ public class AnaEkran extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 290;
         gridBagConstraints.ipady = 5;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 4, 6);
+        gridBagConstraints.weighty = 0.2;
+        gridBagConstraints.insets = new java.awt.Insets(2, 10, 3, 6);
         jPanel6.add(jButton9, gridBagConstraints);
 
         jButton10.setBackground(new java.awt.Color(35, 91, 106));
@@ -126,29 +127,16 @@ public class AnaEkran extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 284;
         gridBagConstraints.ipady = 6;
         gridBagConstraints.weightx = 0.2;
-        gridBagConstraints.insets = new java.awt.Insets(0, 11, 3, 5);
+        gridBagConstraints.weighty = 0.2;
+        gridBagConstraints.insets = new java.awt.Insets(3, 11, 7, 5);
         jPanel6.add(jButton10, gridBagConstraints);
 
-        jButton11.setBackground(new java.awt.Color(35, 91, 106));
-        jButton11.setFont(new java.awt.Font("Dubai", 1, 18)); // NOI18N
-        jButton11.setForeground(new java.awt.Color(255, 255, 255));
-        jButton11.setText("Kayıt Görüntüleme");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 290;
-        gridBagConstraints.ipady = 7;
-        gridBagConstraints.weightx = 0.2;
-        gridBagConstraints.insets = new java.awt.Insets(2, 9, 4, 6);
-        jPanel6.add(jButton11, gridBagConstraints);
-
-        jPanel5.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 340, 410, 270));
+        jPanel5.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 320, 410, 230));
 
         jPanel1.setBackground(new java.awt.Color(6, 11, 21));
 
@@ -245,7 +233,8 @@ public class AnaEkran extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-
+        Ayarlar dialog= new Ayarlar(this, rootPaneCheckingEnabled);
+        dialog.setVisible(true);
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -261,7 +250,6 @@ public class AnaEkran extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
