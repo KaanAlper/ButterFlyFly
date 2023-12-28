@@ -312,9 +312,6 @@ public class SehirSecim extends javax.swing.JFrame {
  
     private void ButonDevamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButonDevamActionPerformed
         Main MainBaglantisi=new Main();
-        if(MainBaglantisi.tablodaVeriBulunuyorMu(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS, MainBaglantisi.SEHIRLER_TABLE_NAME, "Sehirler")){
-            MainBaglantisi.deleteAllRecordsFromTable(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS, MainBaglantisi.SEHIRLER_TABLE_NAME);
-        }
         if (BolgeOnay.isSelected()) {
             MainBaglantisi.createTable(MainBaglantisi.yol2, "CREATE TABLE IF NOT EXISTS "+ MainBaglantisi.SEHIRLER_TABLE_NAME+
             "(Sehirler VARCHAR(255), " +
@@ -323,6 +320,9 @@ public class SehirSecim extends javax.swing.JFrame {
         else{
             MainBaglantisi.createTable(MainBaglantisi.yol2, "CREATE TABLE IF NOT EXISTS " +MainBaglantisi.SEHIRLER_TABLE_NAME+
             "(Sehirler VARCHAR(255))");
+        }
+        if(MainBaglantisi.tablodaVeriBulunuyorMu(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS, MainBaglantisi.SEHIRLER_TABLE_NAME, "Sehirler")){
+            MainBaglantisi.deleteAllRecordsFromTable(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS, MainBaglantisi.SEHIRLER_TABLE_NAME);
         }
         try (Connection connection = DriverManager.getConnection(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS)){
             if (connection != null) {

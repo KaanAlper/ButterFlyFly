@@ -21,6 +21,7 @@ public class Ayarlar extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         Main MainBaglantisi=new Main();
+        MainBaglantisi.createTable(MainBaglantisi.yol2, MainBaglantisi.CREATE_TABLE_WINDOWSTHEME);
         if(MainBaglantisi.checkValueInDatabase("No", "1", MainBaglantisi.WINDOWSTHEME_TABLE_NAME)){
             jToggleButton1.setSelected(true);
             jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/check.png")));
@@ -235,7 +236,6 @@ public class Ayarlar extends javax.swing.JDialog {
         Main MainBaglantisi=new Main();
         if(jToggleButton1.isSelected()){
             jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/check.png")));
-            MainBaglantisi.createTable(MainBaglantisi.yol2, MainBaglantisi.CREATE_TABLE_WINDOWSTHEME);
             Connection con2;
             try {       
                 con2 = DriverManager.getConnection(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS);

@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
@@ -20,20 +21,40 @@ import javax.swing.table.TableRowSorter;
  */
 
 public class KayitDuzenle extends javax.swing.JDialog {
+    private DefaultComboBoxModel<String> BaslangicBolgeModel;
+     private DefaultComboBoxModel<String> BaslangicBolgeModel2;  
     private final DefaultTableModel tableModel;
+    
     public KayitDuzenle(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         String[] columnNames = {"ID", "Başlangıç Şehir", "Bitiş Şehir", "Zaman"};
-        tableModel = new DefaultTableModel(columnNames, 0);
-        initComponents();
-        initColumnWidths();
-        JTableHeader header = dataTable.getTableHeader();
-        header.setReorderingAllowed(false);
-        TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>((DefaultTableModel) dataTable.getModel());
-        dataTable.setRowSorter(rowSorter); 
-        pack();
-        setLocationRelativeTo(null);
-        veriyiGoster();
+        tableModel = new DefaultTableModel(columnNames, 0);       
+        Main MainBaglantisi =new Main();
+        if(MainBaglantisi.checkTableExists(MainBaglantisi.yol, MainBaglantisi.DATABASE_NAME, MainBaglantisi.REZERVASYON_TABLE_NAME, MainBaglantisi.USER, MainBaglantisi.PASS)){
+            if(MainBaglantisi.tablodaVeriBulunuyorMu(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS, MainBaglantisi.REZERVASYON_TABLE_NAME, "ID")){               
+                BaslangicBolgeModel = new DefaultComboBoxModel<>();
+                BaslangicBolgeModel2 = new DefaultComboBoxModel<>();
+                initComponents();
+                populateBolgelerComboBox();
+                populateBolgelerComboBox2();
+                initColumnWidths();
+                JTableHeader header = dataTable.getTableHeader();
+                header.setReorderingAllowed(false);
+                TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>((DefaultTableModel) dataTable.getModel());
+                dataTable.setRowSorter(rowSorter); 
+                pack();
+                setLocationRelativeTo(null);
+                veriyiGoster();
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Daha önce hiç rezervasyon oluşturulmamış. Düzenleme yapılamıyor");
+                dispose();
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Veri Tabanı bulunamadı önce rezervasyon oluşturmayı dene, olmassa kurucu ile konuşun");
+            dispose();
+        }        
     }
 
     @SuppressWarnings("unchecked")
@@ -46,11 +67,11 @@ public class KayitDuzenle extends javax.swing.JDialog {
         jPanel7 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         txtId = new javax.swing.JTextField();
-        txtBaslangicSehir = new javax.swing.JTextField();
-        txtBitisSehir = new javax.swing.JTextField();
         IDLabel = new javax.swing.JLabel();
         BaslangicSehirLabel = new javax.swing.JLabel();
         BitisSehirLabel = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jComboBox3 = new javax.swing.JComboBox<>();
         jPanel9 = new javax.swing.JPanel();
         GünAyLabel = new javax.swing.JLabel();
         cmbGun = new javax.swing.JComboBox<>(new String[]{"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"});
@@ -84,8 +105,8 @@ public class KayitDuzenle extends javax.swing.JDialog {
             if (selectedRow != -1) {
                 // If a row is selected, populate the edit fields
                 txtId.setText(dataTable.getValueAt(selectedRow, 0).toString());
-                txtBaslangicSehir.setText(dataTable.getValueAt(selectedRow, 1).toString());
-                txtBitisSehir.setText(dataTable.getValueAt(selectedRow, 2).toString());
+                jComboBox2.setSelectedItem(dataTable.getValueAt(selectedRow, 1).toString());
+                jComboBox3.setSelectedItem(dataTable.getValueAt(selectedRow, 2).toString());
                 String[] zamanParts = dataTable.getValueAt(selectedRow, 3).toString().split(" Saat: ");
                 String[] dateParts = zamanParts[0].split("/");
                 cmbGun.setSelectedItem(dateParts[0]);
@@ -102,15 +123,6 @@ public class KayitDuzenle extends javax.swing.JDialog {
 
         txtId.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
-        txtBaslangicSehir.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-
-        txtBitisSehir.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtBitisSehir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtBitisSehirActionPerformed(evt);
-            }
-        });
-
         IDLabel.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         IDLabel.setForeground(new java.awt.Color(255, 255, 255));
         IDLabel.setText("ID:");
@@ -122,6 +134,10 @@ public class KayitDuzenle extends javax.swing.JDialog {
         BitisSehirLabel.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         BitisSehirLabel.setForeground(new java.awt.Color(255, 255, 255));
         BitisSehirLabel.setText("Varış Şehiri:");
+
+        jComboBox2.setModel(BaslangicBolgeModel);
+
+        jComboBox3.setModel(BaslangicBolgeModel2);
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -139,9 +155,9 @@ public class KayitDuzenle extends javax.swing.JDialog {
                     .addComponent(BitisSehirLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtId, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
-                    .addComponent(txtBaslangicSehir)
-                    .addComponent(txtBitisSehir))
+                    .addComponent(txtId)
+                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jComboBox3, javax.swing.GroupLayout.Alignment.TRAILING, 0, 195, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
@@ -153,13 +169,13 @@ public class KayitDuzenle extends javax.swing.JDialog {
                     .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtBaslangicSehir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BaslangicSehirLabel))
-                .addGap(11, 11, 11)
+                    .addComponent(BaslangicSehirLabel)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(13, 13, 13)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtBitisSehir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BitisSehirLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(BitisSehirLabel)
+                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -276,8 +292,8 @@ public class KayitDuzenle extends javax.swing.JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int id = Integer.parseInt(txtId.getText());
-                String baslangicSehir = txtBaslangicSehir.getText();
-                String bitisSehir = txtBitisSehir.getText();
+                String baslangicSehir =(String)jComboBox2.getSelectedItem();
+                String bitisSehir =(String)jComboBox3.getSelectedItem();
                 String zaman = cmbGun.getSelectedItem() + "/" + cmbAy.getSelectedItem() +
                 " Saat: " + cmbSaat.getSelectedItem() + ":" + cmbDakika.getSelectedItem();
 
@@ -379,10 +395,39 @@ public class KayitDuzenle extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtBitisSehirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBitisSehirActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtBitisSehirActionPerformed
-
+    
+     private void populateBolgelerComboBox() {
+        BaslangicBolgeModel.removeAllElements();
+        Main MainBaglantisi =new Main();
+        try (Connection connection = DriverManager.getConnection(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS)) {
+            String sql = "SELECT DISTINCT Sehirler FROM sehirlistesi";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                    ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                     BaslangicBolgeModel.addElement(resultSet.getString("Sehirler"));
+                }             
+            }            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+     
+     private void populateBolgelerComboBox2() {
+        BaslangicBolgeModel2.removeAllElements();
+        Main MainBaglantisi =new Main();
+        try (Connection connection = DriverManager.getConnection(MainBaglantisi.yol2, MainBaglantisi.USER, MainBaglantisi.PASS)) {
+            String sql = "SELECT DISTINCT Sehirler FROM sehirlistesi";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                    ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                     BaslangicBolgeModel2.addElement(resultSet.getString("Sehirler"));
+                }             
+            }            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+     
     private void veriyiGoster() {
         tableModel.setRowCount(0);
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/butterflyfly", "root", "")) {
@@ -474,8 +519,8 @@ public class KayitDuzenle extends javax.swing.JDialog {
 
     private void clearFields() {
         txtId.setText("");
-        txtBaslangicSehir.setText("");
-        txtBitisSehir.setText("");
+        jComboBox2.setSelectedItem("");
+        jComboBox3.setSelectedItem("");
         cmbGun.setSelectedIndex(0);
         cmbAy.setSelectedIndex(0);
         cmbSaat.setSelectedIndex(0);
@@ -508,6 +553,8 @@ public class KayitDuzenle extends javax.swing.JDialog {
     private javax.swing.JTable dataTable;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -518,8 +565,6 @@ public class KayitDuzenle extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField txtBaslangicSehir;
-    private javax.swing.JTextField txtBitisSehir;
     private javax.swing.JTextField txtId;
     // End of variables declaration//GEN-END:variables
 

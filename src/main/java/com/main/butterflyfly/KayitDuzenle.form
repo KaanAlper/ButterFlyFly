@@ -122,7 +122,7 @@
                 </Property>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="dataTable.getSelectionModel().addListSelectionListener(e -&gt; {&#xa;    int selectedRow = dataTable.getSelectedRow();&#xa;    if (selectedRow != -1) {&#xa;        // If a row is selected, populate the edit fields&#xa;        txtId.setText(dataTable.getValueAt(selectedRow, 0).toString());&#xa;        txtBaslangicSehir.setText(dataTable.getValueAt(selectedRow, 1).toString());&#xa;        txtBitisSehir.setText(dataTable.getValueAt(selectedRow, 2).toString());&#xa;        String[] zamanParts = dataTable.getValueAt(selectedRow, 3).toString().split(&quot; Saat: &quot;);&#xa;        String[] dateParts = zamanParts[0].split(&quot;/&quot;);&#xa;        cmbGun.setSelectedItem(dateParts[0]);&#xa;        cmbAy.setSelectedItem(dateParts[1]);&#xa;        cmbSaat.setSelectedItem(zamanParts[1].split(&quot;:&quot;)[0]);&#xa;        cmbDakika.setSelectedItem(zamanParts[1].split(&quot;:&quot;)[1]);&#xa;    }&#xa;});"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="dataTable.getSelectionModel().addListSelectionListener(e -&gt; {&#xa;    int selectedRow = dataTable.getSelectedRow();&#xa;    if (selectedRow != -1) {&#xa;        // If a row is selected, populate the edit fields&#xa;        txtId.setText(dataTable.getValueAt(selectedRow, 0).toString());&#xa;        jComboBox2.setSelectedItem(dataTable.getValueAt(selectedRow, 1).toString());&#xa;        jComboBox3.setSelectedItem(dataTable.getValueAt(selectedRow, 2).toString());&#xa;        String[] zamanParts = dataTable.getValueAt(selectedRow, 3).toString().split(&quot; Saat: &quot;);&#xa;        String[] dateParts = zamanParts[0].split(&quot;/&quot;);&#xa;        cmbGun.setSelectedItem(dateParts[0]);&#xa;        cmbAy.setSelectedItem(dateParts[1]);&#xa;        cmbSaat.setSelectedItem(zamanParts[1].split(&quot;:&quot;)[0]);&#xa;        cmbDakika.setSelectedItem(zamanParts[1].split(&quot;:&quot;)[1]);&#xa;    }&#xa;});"/>
               </AuxValues>
             </Component>
           </SubComponents>
@@ -151,9 +151,9 @@
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="txtId" pref="195" max="32767" attributes="0"/>
-                          <Component id="txtBaslangicSehir" max="32767" attributes="0"/>
-                          <Component id="txtBitisSehir" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtId" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jComboBox2" max="32767" attributes="0"/>
+                          <Component id="jComboBox3" alignment="1" pref="195" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -169,15 +169,15 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="txtBaslangicSehir" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="BaslangicSehirLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jComboBox2" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="txtBitisSehir" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="BitisSehirLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jComboBox3" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="7" max="32767" attributes="0"/>
                       <Component id="jPanel11" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -192,19 +192,6 @@
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="4"/>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="txtBaslangicSehir">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="4"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="txtBitisSehir">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="4"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtBitisSehirActionPerformed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="IDLabel">
               <Properties>
@@ -238,6 +225,26 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Var&#x131;&#x15f; &#x15e;ehiri:"/>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="jComboBox2">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="BaslangicBolgeModel" type="code"/>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="jComboBox3">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="BaslangicBolgeModel2" type="code"/>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>
@@ -457,7 +464,7 @@
                 <Property name="text" type="java.lang.String" value="Kaydet"/>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="btnGuncelle.addActionListener(new ActionListener() {&#xa;    @Override&#xa;    public void actionPerformed(ActionEvent e) {&#xa;        int id = Integer.parseInt(txtId.getText());&#xa;        String baslangicSehir = txtBaslangicSehir.getText();&#xa;        String bitisSehir = txtBitisSehir.getText();&#xa;        String zaman = cmbGun.getSelectedItem() + &quot;/&quot; + cmbAy.getSelectedItem() +&#xa;                &quot; Saat: &quot; + cmbSaat.getSelectedItem() + &quot;:&quot; + cmbDakika.getSelectedItem();&#xa;&#xa;        veriyiGuncelle(id, baslangicSehir, bitisSehir, zaman);&#xa;        // After updating, refresh the table&#xa;        veriyiGoster();&#xa;        clearFields();  // Clear fields after update&#xa;    }&#xa;});"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="btnGuncelle.addActionListener(new ActionListener() {&#xa;    @Override&#xa;    public void actionPerformed(ActionEvent e) {&#xa;        int id = Integer.parseInt(txtId.getText());&#xa;        String baslangicSehir =(String)jComboBox2.getSelectedItem();&#xa;        String bitisSehir =(String)jComboBox3.getSelectedItem();&#xa;        String zaman = cmbGun.getSelectedItem() + &quot;/&quot; + cmbAy.getSelectedItem() +&#xa;                &quot; Saat: &quot; + cmbSaat.getSelectedItem() + &quot;:&quot; + cmbDakika.getSelectedItem();&#xa;&#xa;        veriyiGuncelle(id, baslangicSehir, bitisSehir, zaman);&#xa;        // After updating, refresh the table&#xa;        veriyiGoster();&#xa;        clearFields();  // Clear fields after update&#xa;    }&#xa;});"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JButton" name="btnSil">
